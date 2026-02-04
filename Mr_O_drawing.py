@@ -11,7 +11,7 @@ from urllib.parse import quote
 # ---------------- CONFIG ----------------
 st.set_page_config(
     page_title="MR. O's STEM ACADEMY",
-    page_icon="📐📦🗳️",
+    page_icon="📐",
     layout="wide"
 )
 
@@ -86,7 +86,7 @@ def display_cart():
 display_cart()
 
 # ---------------- PRODUCT GRID ----------------
-st.subheader("Our Products")
+st.subheader("Our Products📦🗳️")
 cols = st.columns(3)
 
 for i, (order, img_url, price) in enumerate(products):
@@ -104,5 +104,6 @@ for i, (order, img_url, price) in enumerate(products):
 # ---------------- FOOTER ----------------
 st.divider()
 st.markdown("<h4 style='text-align:center; color:#FF6600;'>© 2026 MR. O's STEM ACADEMY | Free Delivery</h4>", unsafe_allow_html=True)
+
 
 
