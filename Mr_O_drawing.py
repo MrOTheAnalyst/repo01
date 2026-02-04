@@ -29,7 +29,7 @@ h3 { font-size:1.6rem; color:#0b3d91; margin-top:10px; }
 """, unsafe_allow_html=True)
 
 # ---------------- HERO ----------------
-st.markdown("<h1>📐 MR. O's STEM ACADEMY</h1>", unsafe_allow_html=True)
+st.markdown("<h1> MR. O's STEM ACADEMY</h1>", unsafe_allow_html=True)
 st.markdown("<h2>Get Equipped for Less – Shop Now!</h2>", unsafe_allow_html=True)
 st.divider()
 
@@ -98,7 +98,7 @@ def display_cart():
 display_cart()
 
 # ---------------- PRODUCT GRID ----------------
-st.subheader("Our Products")
+st.subheader("Our Products📦🗳️")
 cols = st.columns(3)
 
 for i, (order, img_url, price) in enumerate(products):
@@ -113,7 +113,7 @@ for i, (order, img_url, price) in enumerate(products):
             st.success(f"{order} added to cart 🛒")
 
         # WhatsApp button for single product
-        wa_message = f"Hello! I would like to order {order} for R{price:.2f}"
+        wa_message = f"Hello! Mr. O, I would like to order {order} for R{price:.2f}"
         wa_url = f"https://wa.me/{my_number}?text={quote(wa_message)}"
         st.markdown(f"""
         <a href="{wa_url}" target="_blank">
@@ -133,4 +133,5 @@ for i, (order, img_url, price) in enumerate(products):
 
 # ---------------- FOOTER ----------------
 st.divider()
-st.markdown("<h4 style='text-align:center; color:#FF6600;'>© 2026 MR. O's STEM ACADEMY | Built with Streamlit</h4>", unsafe_allow_html=True)
+st.markdown("<h4 style='text-align:center; color:#FF6600;'>© 2026 MR. O's STEM ACADEMY | Free Delivery🚚📦</h4>", unsafe_allow_html=True)
+
