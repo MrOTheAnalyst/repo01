@@ -38,7 +38,7 @@ products = [
 
 cols = st.columns(3)
 
-for i, (name, img_path, price) in enumerate(products):
+for i, (order, img_path, price) in enumerate(products):
     with cols[i % 3]:
         if os.path.exists(img_path):
             image = Image.open(img_path)
@@ -46,7 +46,7 @@ for i, (name, img_path, price) in enumerate(products):
         else:
             st.warning("Image not found")
 
-        st.markdown(f"### {name}")
+        st.markdown(f"### {order}")
         st.markdown(f"**Price: R{price:.2f}**")
-        st.button(f"Buy {name}")
+        st.button(f"Buy {order}")
 
