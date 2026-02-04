@@ -7,6 +7,7 @@ Created on Wed Feb  4 19:14:19 2026
 
 import streamlit as st
 from urllib.parse import quote
+import time
 
 # ---------------- CONFIG ----------------
 st.set_page_config(
@@ -18,13 +19,36 @@ st.set_page_config(
 # ---------------- CSS ----------------
 st.markdown("""
 <style>
+/* Main layout */
 section.main { background-color: #f0f4f8; padding: 30px 50px; }
+
+/* Titles */
 h1 { font-family: 'Poppins', sans-serif; color: #FF6600; font-size: 3rem; text-align: center; }
 h2 { font-family: 'Poppins', sans-serif; color: #FF6600; font-size: 2rem; text-align: center; margin-bottom:30px; }
-div.stImage { border-radius:15px; box-shadow:0 5px 20px rgba(0,0,0,0.15); transition: transform 0.2s; }
-div.stImage:hover { transform: scale(1.05); }
-h3 { font-size:1.6rem; color:#0b3d91; margin-top:10px; }
-.price { font-size:18px; font-weight:bold; }
+
+/* Product image hover effect */
+div.stImage img { border-radius:15px; box-shadow:0 5px 20px rgba(0,0,0,0.15); transition: transform 0.3s; }
+div.stImage img:hover { transform: scale(1.05); }
+
+/* Price style */
+.price { font-size:18px; font-weight:bold; color:#0b3d91; margin-bottom:10px; }
+
+/* Button style */
+.button {
+    background-color:#0b3d91;
+    color:white;
+    padding:12px 25px;
+    border:none;
+    border-radius:8px;
+    font-weight:bold;
+    font-size:16px;
+    cursor:pointer;
+    margin-top:5px;
+}
+.button:hover { background-color:#094182; }
+
+/* Sidebar cart title */
+.sidebar .sidebar-content h1, .sidebar .sidebar-content h2 { color:#FF6600; }
 </style>
 """, unsafe_allow_html=True)
 
@@ -41,14 +65,6 @@ products = [
     ("Combo Set", "https://raw.githubusercontent.com/MrOTheAnalyst/repo01/main/combo.jpg", 94.99),
     ("Compass Leads", "https://raw.githubusercontent.com/MrOTheAnalyst/repo01/main/compass_leads.jpg", 9.99),
     ("Drawing Bag", "https://raw.githubusercontent.com/MrOTheAnalyst/repo01/main/drawing_bag.jpg", 219.99),
-    ("Eraser", "https://raw.githubusercontent.com/MrOTheAnalyst/repo01/main/eraser.jpg", 8.99),
-    ("Erasing Shield", "https://raw.githubusercontent.com/MrOTheAnalyst/repo01/main/erasing_shield.jpg", 26.99),
-    ("French Curve", "https://raw.githubusercontent.com/MrOTheAnalyst/repo01/main/french_curve.jpg", 44.99),
-    ("Leads", "https://raw.githubusercontent.com/MrOTheAnalyst/repo01/main/leads.jpg", 9.99),
-    ("Sharpener", "https://raw.githubusercontent.com/MrOTheAnalyst/repo01/main/sharpener.jpg", 14.99),
-    ("Small Compass", "https://raw.githubusercontent.com/MrOTheAnalyst/repo01/main/small_compass.jpg", 74.99),
-    ("Stencil", "https://raw.githubusercontent.com/MrOTheAnalyst/repo01/main/stencil.jpg", 32.99),
-    ("Drawing Board", "https://raw.githubusercontent.com/MrOTheAnalyst/repo01/main/drawing_board.jpg", 449.99),
 ]
 
 # ---------------- SESSION STATE ----------------
@@ -68,25 +84,16 @@ def display_cart():
             col1.write(f"{name} - R{price:.2f}")
             if col2.button("❌", key=f"remove_{i}"):
                 st.session_state.cart.pop(i)
-                return  # Stop to rerun automatically
+                return
         st.sidebar.markdown(f"**Total: R{total:.2f}**")
 
-        # WhatsApp link for all cart items
         cart_items = "\n".join([f"{name} - R{price:.2f}" for name, price in st.session_state.cart])
         wa_message = f"Hello! I would like to order the following items:\n{cart_items}\nTotal: R{total:.2f}"
         wa_url = f"https://wa.me/{my_number}?text={quote(wa_message)}"
         
-        # Button style link
         st.sidebar.markdown(f"""
         <a href="{wa_url}" target="_blank">
-            <button style="
-                background-color:#0b3d91;
-                color:white;
-                padding:10px 20px;
-                border:none;
-                border-radius:8px;
-                font-weight:bold;
-                cursor:pointer;">
+            <button class="button">
                 📲 Order All via WhatsApp
             </button>
         </a>
@@ -106,19 +113,24 @@ for i, (order, img_url, price) in enumerate(products):
         st.markdown(f"### {order}")
         st.markdown(f"<p class='price'>Price: R{price:.2f}</p>", unsafe_allow_html=True)
 
+        # Add to Cart animation
+        add_placeholder = st.empty()
+        if st.button(f"Add to Cart", key=f"cart_{order}"):
+            st.session_state.cart.append((order, price))
+            
+            # Flying emoji animation
+            add_placeholder.markdown(f"<p style='font-size:24px;'>🛒 {order} added!</p>", unsafe_allow_html=True)
+            time.sleep(0.8)
+            add_placeholder.empty()
+            
+            display_cart()  # refresh sidebar cart
+
         # WhatsApp button for single product
-        wa_message = f"Hello! Mr. O, I would like to order {order} for R{price:.2f}"
+        wa_message = f"Hello! I would like to order {order} for R{price:.2f}"
         wa_url = f"https://wa.me/{my_number}?text={quote(wa_message)}"
         st.markdown(f"""
         <a href="{wa_url}" target="_blank">
-            <button style="
-                background-color:#0b3d91;
-                color:white;
-                padding:10px 20px;
-                border:none;
-                border-radius:8px;
-                font-weight:bold;
-                cursor:pointer;">
+            <button class="button">
                 📲 Buy via WhatsApp
             </button>
         </a>
@@ -127,4 +139,3 @@ for i, (order, img_url, price) in enumerate(products):
 # ---------------- FOOTER ----------------
 st.divider()
 st.markdown("<h4 style='text-align:center; color:#FF6600;'>© 2026 MR. O's STEM ACADEMY | Free Delivery🚚📦</h4>", unsafe_allow_html=True)
-
