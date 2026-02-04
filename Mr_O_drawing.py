@@ -20,7 +20,7 @@ st.subheader("Get equipped for less – Shop now!")
 st.divider()
 
 products = [
-    ("A3 Paper", "images/a3_paper.jpg", 1.50),
+    ("A3 Paper", "images/a3_paper.jpg", 1.99),
     ("Big Compass", "images/big_compass.jpg", 99.99),
     ("Clutch Pencil", "images/clutch_pencil.jpg", 9.99),
     ("Combo Set", "images/combo.jpg", 94.99),
@@ -33,6 +33,7 @@ products = [
     ("Sharpener", "images/sharpener.jpg", 14.99),
     ("Small Compass", "images/small_compass.jpg", 74.99),
     ("Stencil", "images/stencil.jpg", 32.99),
+    ("Drawing Board", "images/drawing_board.jpg", 449.99),
 ]
 
 cols = st.columns(3)
@@ -48,3 +49,4 @@ for i, (name, img_path, price) in enumerate(products):
         st.markdown(f"### {name}")
         st.markdown(f"**Price: R{price:.2f}**")
         st.button(f"Buy {name}")
+
