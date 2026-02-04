@@ -6,6 +6,7 @@ Created on Wed Feb  4 19:14:19 2026
 """
 
 import streamlit as st
+from urllib.parse import quote
 
 # ---------------- PAGE CONFIG ----------------
 st.set_page_config(
@@ -19,39 +20,58 @@ st.markdown("""
 <style>
 /* Body background */
 section.main {
-    background-color: #f9f9f9;
-    padding: 20px 40px;
+    background-color: #f0f4f8;
+    padding: 30px 50px;
 }
 
-/* Product image styling with hover zoom */
+/* Hero Title */
+h1 {
+    font-family: 'Poppins', sans-serif;
+    color: #0b3d91;
+    font-size: 3rem;
+    text-align: center;
+    margin-bottom: 0px;
+}
+h2 {
+    font-family: 'Poppins', sans-serif;
+    color: #0b3d91;
+    font-size: 2rem;
+    text-align: center;
+    margin-top: 5px;
+    margin-bottom: 30px;
+}
+
+/* Product image hover */
 div.stImage {
     border-radius: 15px;
-    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    box-shadow: 0 5px 20px rgba(0,0,0,0.15);
     transition: transform 0.2s;
 }
 div.stImage:hover {
     transform: scale(1.05);
 }
 
-/* Headings */
-h1, h2, h3 {
-    font-family: 'Helvetica', sans-serif;
-    color: #0b3d91;
-}
-
-/* Product titles */
+/* Product title */
 h3 {
-    font-size: 1.5rem;
+    font-size: 1.6rem;
+    color: #0b3d91;
     margin-top: 10px;
 }
 
-/* Buttons */
+/* Price */
+.price {
+    font-size: 18px;
+    font-weight: bold;
+}
+
+/* Buy button */
 .stButton button {
     background-color: #0b3d91;
     color: white;
     font-weight: bold;
     border-radius: 8px;
-    padding: 8px 16px;
+    padding: 10px 20px;
+    margin-top: 5px;
 }
 .stButton button:hover {
     background-color: #06316a;
@@ -59,9 +79,9 @@ h3 {
 </style>
 """, unsafe_allow_html=True)
 
-# ---------------- HEADER ----------------
-st.title("📐 MR. O's STEM ACADEMY")
-st.subheader("Get equipped for less – Shop now!")
+# ---------------- HERO ----------------
+st.markdown("<h1>📐 MR. O's STEM ACADEMY</h1>", unsafe_allow_html=True)
+st.markdown("<h2>Get Equipped for Less – Shop Now!</h2>", unsafe_allow_html=True)
 st.divider()
 
 # ---------------- PRODUCTS ----------------
@@ -82,22 +102,37 @@ products = [
     ("Drawing Board", "https://raw.githubusercontent.com/MrOTheAnalyst/repo01/main/drawing_board.jpg", 449.99),
 ]
 
+# ---------------- SIDEBAR CART ----------------
+if 'cart' not in st.session_state:
+    st.session_state.cart = []
+
+st.sidebar.title("🛒 Your Cart")
+total = sum([item[1] for item in st.session_state.cart])
+if st.session_state.cart:
+    for name, price in st.session_state.cart:
+        st.sidebar.write(f"{name} - R{price:.2f}")
+    st.sidebar.markdown(f"**Total: R{total:.2f}**")
+else:
+    st.sidebar.write("Your cart is empty")
+
 # ---------------- PRODUCT GRID ----------------
 st.subheader("Our Products")
 cols = st.columns(3)
 
 for i, (order, img_url, price) in enumerate(products):
     with cols[i % 3]:
-        try:
-            st.image(img_url, use_container_width=True)
-        except:
-            st.error(f"Cannot load image: {order}")
-
+        st.image(img_url, use_container_width=True)
         st.markdown(f"### {order}")
-        st.markdown(f"<p style='font-size:18px; font-weight:bold;'>Price: R{price:.2f}</p>", unsafe_allow_html=True)
+        st.markdown(f"<p class='price'>Price: R{price:.2f}</p>", unsafe_allow_html=True)
+
+        # WhatsApp link
+        message = f"Hello! I would like to order: {order} for R{price:.2f}"
+        wa_url = f"https://wa.me/27761285492?text={quote(message)}"
 
         if st.button(f"Buy {order}", key=order):
+            st.session_state.cart.append((order, price))
             st.success(f"{order} added to cart 🛒")
+            st.markdown(f"[Order via WhatsApp](%s)" % wa_url, unsafe_allow_html=True)
 
 # ---------------- FOOTER ----------------
 st.divider()
