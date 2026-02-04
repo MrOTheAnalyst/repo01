@@ -31,7 +31,7 @@ h3 { font-size:1.6rem; color:#0b3d91; margin-top:10px; }
 """, unsafe_allow_html=True)
 
 # ---------------- HERO ----------------
-st.markdown("<h1>📐 MR. O's STEM ACADEMY</h1>", unsafe_allow_html=True)
+st.markdown("<h1>📐📦🗳️ MR. O's STEM ACADEMY</h1>", unsafe_allow_html=True)
 st.markdown("<h2>Get Equipped for Less – Shop Now!</h2>", unsafe_allow_html=True)
 st.divider()
 
@@ -103,5 +103,6 @@ for i, (order, img_url, price) in enumerate(products):
 
 # ---------------- FOOTER ----------------
 st.divider()
-st.markdown("<h4 style='text-align:center; color:#FF6600;'>© 2026 MR. O's STEM ACADEMY | Built with Streamlit</h4>", unsafe_allow_html=True)
+st.markdown("<h4 style='text-align:center; color:#FF6600;'>© 2026 MR. O's STEM ACADEMY | Free Delivery</h4>", unsafe_allow_html=True)
+
 
