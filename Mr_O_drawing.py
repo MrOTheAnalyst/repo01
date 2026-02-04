@@ -11,7 +11,7 @@ from urllib.parse import quote
 # ---------------- CONFIG ----------------
 st.set_page_config(
     page_title="MR. O's STEM ACADEMY",
-    page_icon="📐",
+    page_icon="📐📦🗳️",
     layout="wide"
 )
 
@@ -77,7 +77,7 @@ def display_cart():
         
         # WhatsApp link for all cart items
         cart_items = "\n".join([f"{name} - R{price:.2f}" for name, price in st.session_state.cart])
-        wa_message = f"Hello! I would like to order the following items:\n{cart_items}\nTotal: R{total:.2f}"
+        wa_message = f"Hello! Mr. O, I would like to order the following items:\n{cart_items}\nTotal: R{total:.2f}"
         wa_url = f"https://wa.me/{my_number}?text={quote(wa_message)}"
         st.sidebar.markdown(f"[📲 Order All via WhatsApp](%s)" % wa_url, unsafe_allow_html=True)
     else:
@@ -104,3 +104,4 @@ for i, (order, img_url, price) in enumerate(products):
 # ---------------- FOOTER ----------------
 st.divider()
 st.markdown("<h4 style='text-align:center; color:#FF6600;'>© 2026 MR. O's STEM ACADEMY | Built with Streamlit</h4>", unsafe_allow_html=True)
+
