@@ -23,7 +23,7 @@ section.main {
     padding: 20px 40px;
 }
 
-/* Product card styling */
+/* Product image styling with hover zoom */
 div.stImage {
     border-radius: 15px;
     box-shadow: 0 5px 15px rgba(0,0,0,0.1);
@@ -60,26 +60,26 @@ h3 {
 """, unsafe_allow_html=True)
 
 # ---------------- HEADER ----------------
-st.title("📐 MR. O's STEM ACADEMY", anchor=False)
+st.title("📐 MR. O's STEM ACADEMY")
 st.subheader("Get equipped for less – Shop now!")
 st.divider()
 
 # ---------------- PRODUCTS ----------------
 products = [
-    ("A3 Paper", "https://raw.githubusercontent.com/MrOTheAnalyst/repo01/main/images/a3_paper.jpg", 1.99),
-    ("Big Compass", "https://raw.githubusercontent.com/MrOTheAnalyst/repo01/main/images/big_compass.jpg", 99.99),
-    ("Clutch Pencil", "https://raw.githubusercontent.com/MrOTheAnalyst/repo01/main/images/clutch_pencil.jpg", 9.99),
-    ("Combo Set", "https://raw.githubusercontent.com/MrOTheAnalyst/repo01/main/images/combo.jpg", 94.99),
-    ("Compass Leads", "https://raw.githubusercontent.com/MrOTheAnalyst/repo01/main/images/compass_leads.jpg", 9.99),
-    ("Drawing Bag", "https://raw.githubusercontent.com/MrOTheAnalyst/repo01/main/images/drawing_bag.jpg", 219.99),
-    ("Eraser", "https://raw.githubusercontent.com/MrOTheAnalyst/repo01/main/images/eraser.jpg", 8.99),
-    ("Erasing Shield", "https://raw.githubusercontent.com/MrOTheAnalyst/repo01/main/images/erasing_shield.jpg", 26.99),
-    ("French Curve", "https://raw.githubusercontent.com/MrOTheAnalyst/repo01/main/images/french_curve.jpg", 44.99),
-    ("Leads", "https://raw.githubusercontent.com/MrOTheAnalyst/repo01/main/images/leads.jpg", 9.99),
-    ("Sharpener", "https://raw.githubusercontent.com/MrOTheAnalyst/repo01/main/images/sharpener.jpg", 14.99),
-    ("Small Compass", "https://raw.githubusercontent.com/MrOTheAnalyst/repo01/main/images/small_compass.jpg", 74.99),
-    ("Stencil", "https://raw.githubusercontent.com/MrOTheAnalyst/repo01/main/images/stencil.jpg", 32.99),
-    ("Drawing Board", "https://raw.githubusercontent.com/MrOTheAnalyst/repo01/main/images/drawing_board.jpg", 449.99),
+    ("A3 Paper", "https://raw.githubusercontent.com/MrOTheAnalyst/repo01/main/a3_paper.jpg", 1.99),
+    ("Big Compass", "https://raw.githubusercontent.com/MrOTheAnalyst/repo01/main/big_compass.jpg", 99.99),
+    ("Clutch Pencil", "https://raw.githubusercontent.com/MrOTheAnalyst/repo01/main/clutch_pencil.jpg", 9.99),
+    ("Combo Set", "https://raw.githubusercontent.com/MrOTheAnalyst/repo01/main/combo.jpg", 94.99),
+    ("Compass Leads", "https://raw.githubusercontent.com/MrOTheAnalyst/repo01/main/compass_leads.jpg", 9.99),
+    ("Drawing Bag", "https://raw.githubusercontent.com/MrOTheAnalyst/repo01/main/drawing_bag.jpg", 219.99),
+    ("Eraser", "https://raw.githubusercontent.com/MrOTheAnalyst/repo01/main/eraser.jpg", 8.99),
+    ("Erasing Shield", "https://raw.githubusercontent.com/MrOTheAnalyst/repo01/main/erasing_shield.jpg", 26.99),
+    ("French Curve", "https://raw.githubusercontent.com/MrOTheAnalyst/repo01/main/french_curve.jpg", 44.99),
+    ("Leads", "https://raw.githubusercontent.com/MrOTheAnalyst/repo01/main/leads.jpg", 9.99),
+    ("Sharpener", "https://raw.githubusercontent.com/MrOTheAnalyst/repo01/main/sharpener.jpg", 14.99),
+    ("Small Compass", "https://raw.githubusercontent.com/MrOTheAnalyst/repo01/main/small_compass.jpg", 74.99),
+    ("Stencil", "https://raw.githubusercontent.com/MrOTheAnalyst/repo01/main/stencil.jpg", 32.99),
+    ("Drawing Board", "https://raw.githubusercontent.com/MrOTheAnalyst/repo01/main/drawing_board.jpg", 449.99),
 ]
 
 # ---------------- PRODUCT GRID ----------------
