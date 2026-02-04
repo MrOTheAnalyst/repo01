@@ -57,9 +57,10 @@ products = [
 if 'cart' not in st.session_state:
     st.session_state.cart = []
 
-# ---------------- SIDEBAR CART ----------------
-st.sidebar.title("🛒 Your Cart")
+# Your WhatsApp number
+my_number = "27632757157"
 
+# ---------------- SIDEBAR CART ----------------
 def display_cart():
     total = sum([item[1] for item in st.session_state.cart])
     if st.session_state.cart:
@@ -71,10 +72,10 @@ def display_cart():
                 st.experimental_rerun()
         st.sidebar.markdown(f"**Total: R{total:.2f}**")
         
-        # WhatsApp order link for all cart items
+        # WhatsApp link for all cart items
         cart_items = "\n".join([f"{name} - R{price:.2f}" for name, price in st.session_state.cart])
         wa_message = f"Hello! I would like to order the following items:\n{cart_items}\nTotal: R{total:.2f}"
-        wa_url = f"https://wa.me/27632757157?text={quote(wa_message)}"
+        wa_url = f"https://wa.me/{my_number}?text={quote(wa_message)}"
         st.sidebar.markdown(f"[📲 Order All via WhatsApp](%s)" % wa_url, unsafe_allow_html=True)
     else:
         st.sidebar.write("Your cart is empty")
@@ -91,11 +92,12 @@ for i, (order, img_url, price) in enumerate(products):
         st.markdown(f"### {order}")
         st.markdown(f"<p class='price'>Price: R{price:.2f}</p>", unsafe_allow_html=True)
         
+        # Add to cart button
         if st.button(f"Buy {order}", key=order):
             st.session_state.cart.append((order, price))
             st.success(f"{order} added to cart 🛒")
-            st.experimental_rerun()  # refresh to update sidebar cart
+            st.experimental_rerun()  # refresh sidebar cart
 
 # ---------------- FOOTER ----------------
 st.divider()
-st.markdown("<h4 style='text-align:center; color:#FF6600;'>© 2026 MR. O's STEM ACADEMY | Free Delivery!</h4>", unsafe_allow_html=True)
+st.markdown("<h4 style='text-align:center; color:#FF6600;'>© 2026 MR. O's STEM ACADEMY | Built with Streamlit</h4>", unsafe_allow_html=True)
