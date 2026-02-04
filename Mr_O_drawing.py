@@ -25,8 +25,6 @@ div.stImage { border-radius:15px; box-shadow:0 5px 20px rgba(0,0,0,0.15); transi
 div.stImage:hover { transform: scale(1.05); }
 h3 { font-size:1.6rem; color:#0b3d91; margin-top:10px; }
 .price { font-size:18px; font-weight:bold; }
-.stButton button { background-color:#0b3d91; color:white; font-weight:bold; border-radius:8px; padding:10px 20px; margin-top:5px; }
-.stButton button:hover { background-color:#06316a; }
 </style>
 """, unsafe_allow_html=True)
 
@@ -57,8 +55,7 @@ products = [
 if 'cart' not in st.session_state:
     st.session_state.cart = []
 
-# Your WhatsApp number
-my_number = "27632757157"
+my_number = "27632757157"  # WhatsApp number
 
 # ---------------- SIDEBAR CART ----------------
 st.sidebar.title("🛒 Your Cart")
@@ -71,15 +68,29 @@ def display_cart():
             col1.write(f"{name} - R{price:.2f}")
             if col2.button("❌", key=f"remove_{i}"):
                 st.session_state.cart.pop(i)
-                return  # Stop further processing so Streamlit reruns automatically
-
+                return  # Stop to rerun automatically
         st.sidebar.markdown(f"**Total: R{total:.2f}**")
-        
+
         # WhatsApp link for all cart items
         cart_items = "\n".join([f"{name} - R{price:.2f}" for name, price in st.session_state.cart])
-        wa_message = f"Hello! Mr. O, I would like to order the following items:\n{cart_items}\nTotal: R{total:.2f}"
+        wa_message = f"Hello! I would like to order the following items:\n{cart_items}\nTotal: R{total:.2f}"
         wa_url = f"https://wa.me/{my_number}?text={quote(wa_message)}"
-        st.sidebar.markdown(f"[📲 Order All via WhatsApp](%s)" % wa_url, unsafe_allow_html=True)
+        
+        # Button style link
+        st.sidebar.markdown(f"""
+        <a href="{wa_url}" target="_blank">
+            <button style="
+                background-color:#0b3d91;
+                color:white;
+                padding:10px 20px;
+                border:none;
+                border-radius:8px;
+                font-weight:bold;
+                cursor:pointer;">
+                📲 Order All via WhatsApp
+            </button>
+        </a>
+        """, unsafe_allow_html=True)
     else:
         st.sidebar.write("Your cart is empty")
 
@@ -94,18 +105,25 @@ for i, (order, img_url, price) in enumerate(products):
         st.image(img_url, use_container_width=True)
         st.markdown(f"### {order}")
         st.markdown(f"<p class='price'>Price: R{price:.2f}</p>", unsafe_allow_html=True)
-        
-        # Add to cart button
-        if st.button(f"Buy {order}", key=order):
-            st.session_state.cart.append((order, price))
-            st.success(f"{order} added to cart 🛒")
-            # No st.experimental_rerun() needed, Streamlit reruns automatically
+
+        # WhatsApp button for single product
+        wa_message = f"Hello! Mr. O, I would like to order {order} for R{price:.2f}"
+        wa_url = f"https://wa.me/{my_number}?text={quote(wa_message)}"
+        st.markdown(f"""
+        <a href="{wa_url}" target="_blank">
+            <button style="
+                background-color:#0b3d91;
+                color:white;
+                padding:10px 20px;
+                border:none;
+                border-radius:8px;
+                font-weight:bold;
+                cursor:pointer;">
+                📲 Buy via WhatsApp
+            </button>
+        </a>
+        """, unsafe_allow_html=True)
 
 # ---------------- FOOTER ----------------
 st.divider()
-st.markdown("<h4 style='text-align:center; color:#FF6600;'>© 2026 MR. O's STEM ACADEMY | Free Delivery</h4>", unsafe_allow_html=True)
-
-
-
-
-
+st.markdown("<h4 style='text-align:center; color:#FF6600;'>© 2026 MR. O's STEM ACADEMY | Built with Streamlit</h4>", unsafe_allow_html=True)
