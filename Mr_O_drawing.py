@@ -24,17 +24,17 @@ section.main {
     padding: 30px 50px;
 }
 
-/* Hero Title */
+/* Hero Title & Heading */
 h1 {
     font-family: 'Poppins', sans-serif;
-    color: #0b3d91;
+    color: #FF6600;  /* Updated color */
     font-size: 3rem;
     text-align: center;
     margin-bottom: 0px;
 }
 h2 {
     font-family: 'Poppins', sans-serif;
-    color: #0b3d91;
+    color: #FF6600;  /* Updated color */
     font-size: 2rem;
     text-align: center;
     margin-top: 5px;
@@ -119,6 +119,9 @@ else:
 st.subheader("Our Products")
 cols = st.columns(3)
 
+# Your WhatsApp number
+my_number = "27632757157"
+
 for i, (order, img_url, price) in enumerate(products):
     with cols[i % 3]:
         st.image(img_url, use_container_width=True)
@@ -127,7 +130,7 @@ for i, (order, img_url, price) in enumerate(products):
 
         # WhatsApp link
         message = f"Hello! I would like to order: {order} for R{price:.2f}"
-        wa_url = f"https://wa.me/27761285492?text={quote(message)}"
+        wa_url = f"https://wa.me/{my_number}?text={quote(message)}"
 
         if st.button(f"Buy {order}", key=order):
             st.session_state.cart.append((order, price))
@@ -136,4 +139,4 @@ for i, (order, img_url, price) in enumerate(products):
 
 # ---------------- FOOTER ----------------
 st.divider()
-st.markdown("<h4 style='text-align:center; color:#0b3d91;'>© 2026 MR. O's STEM ACADEMY | Built with Streamlit</h4>", unsafe_allow_html=True)
+st.markdown("<h4 style='text-align:center; color:#FF6600;'>© 2026 MR. O's STEM ACADEMY | Free Delivery!</h4>", unsafe_allow_html=True)
