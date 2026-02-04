@@ -61,6 +61,8 @@ if 'cart' not in st.session_state:
 my_number = "27632757157"
 
 # ---------------- SIDEBAR CART ----------------
+st.sidebar.title("🛒 Your Cart")
+
 def display_cart():
     total = sum([item[1] for item in st.session_state.cart])
     if st.session_state.cart:
@@ -69,7 +71,8 @@ def display_cart():
             col1.write(f"{name} - R{price:.2f}")
             if col2.button("❌", key=f"remove_{i}"):
                 st.session_state.cart.pop(i)
-                st.experimental_rerun()
+                return  # Stop further processing so Streamlit reruns automatically
+
         st.sidebar.markdown(f"**Total: R{total:.2f}**")
         
         # WhatsApp link for all cart items
@@ -96,7 +99,7 @@ for i, (order, img_url, price) in enumerate(products):
         if st.button(f"Buy {order}", key=order):
             st.session_state.cart.append((order, price))
             st.success(f"{order} added to cart 🛒")
-            st.experimental_rerun()  # refresh sidebar cart
+            # No st.experimental_rerun() needed, Streamlit reruns automatically
 
 # ---------------- FOOTER ----------------
 st.divider()
