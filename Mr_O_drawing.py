@@ -126,4 +126,5 @@ for i, (order, img_url, price) in enumerate(products):
 
 # ---------------- FOOTER ----------------
 st.divider()
-st.markdown("<h4 style='text-align:center; color:#FF6600;'>© 2026 MR. O's STEM ACADEMY | Built with Streamlit</h4>", unsafe_allow_html=True)
+st.markdown("<h4 style='text-align:center; color:#FF6600;'>© 2026 MR. O's STEM ACADEMY | Free Delivery🚚📦</h4>", unsafe_allow_html=True)
+
