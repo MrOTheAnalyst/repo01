@@ -63,14 +63,20 @@ st.sidebar.title("🛒 Your Cart")
 def display_cart():
     total = sum([item[1] for item in st.session_state.cart])
     if st.session_state.cart:
-        # Show cart items
+        # Display cart items
         for i, (name, price) in enumerate(st.session_state.cart):
             col1, col2 = st.sidebar.columns([3,1])
             col1.write(f"{name} - R{price:.2f}")
-            if col2.button("❌", key=f"remove_{i}"):
+            
+            # Remove item button
+            remove_key = f"remove_{i}"
+            if remove_key not in st.session_state:
+                st.session_state[remove_key] = False
+            if col2.button("❌", key=remove_key):
                 st.session_state.cart.pop(i)
-                st.experimental_rerun()  # Refresh page so cart updates immediately
+                break  # break to avoid index errors
         
+        # Show total
         st.sidebar.markdown(f"**Total: R{total:.2f}**")
 
         # WhatsApp link for all cart items
@@ -78,7 +84,7 @@ def display_cart():
         wa_message = f"Hello! Mr. O, I would like to order the following items:\n{cart_items}\nTotal: R{total:.2f}"
         wa_url = f"https://wa.me/{my_number}?text={quote(wa_message)}"
 
-        # Order all button
+        # WhatsApp order button
         st.sidebar.markdown(f"""
         <a href="{wa_url}" target="_blank" style="
             background-color:#0b3d91;
@@ -114,7 +120,6 @@ for i in range(0, len(products), 3):
             if st.button(f"Add to Cart", key=f"cart_{order}"):
                 st.session_state.cart.append((order, price))
                 st.success(f"{order} added to cart 🛒")
-                st.experimental_rerun()  # Refresh so sidebar updates instantly
 
 # ---------------- FOOTER ----------------
 st.divider()
