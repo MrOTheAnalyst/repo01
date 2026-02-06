@@ -62,29 +62,25 @@ st.sidebar.title("🛒 Your Cart")
 
 def display_cart():
     total = sum([item[1] for item in st.session_state.cart])
+    
     if st.session_state.cart:
-        # Display cart items
+        # Display items
         for i, (name, price) in enumerate(st.session_state.cart):
             col1, col2 = st.sidebar.columns([3,1])
             col1.write(f"{name} - R{price:.2f}")
             
-            # Remove item button
-            remove_key = f"remove_{i}"
-            if remove_key not in st.session_state:
-                st.session_state[remove_key] = False
-            if col2.button("❌", key=remove_key):
+            if col2.button("❌", key=f"remove_{i}"):
                 st.session_state.cart.pop(i)
-                break  # break to avoid index errors
+                break  # avoid index error while looping
         
-        # Show total
+        # Total
         st.sidebar.markdown(f"**Total: R{total:.2f}**")
 
-        # WhatsApp link for all cart items
+        # WhatsApp order link
         cart_items = "\n".join([f"{name} - R{price:.2f}" for name, price in st.session_state.cart])
-        wa_message = f"Hello! Mr. O, I would like to order the following items:\n{cart_items}\nTotal: R{total:.2f}"
+        wa_message = f"Hello! I would like to order the following items:\n{cart_items}\nTotal: R{total:.2f}"
         wa_url = f"https://wa.me/{my_number}?text={quote(wa_message)}"
 
-        # WhatsApp order button
         st.sidebar.markdown(f"""
         <a href="{wa_url}" target="_blank" style="
             background-color:#0b3d91;
@@ -116,7 +112,7 @@ for i in range(0, len(products), 3):
             st.markdown(f"### {order}")
             st.markdown(f"<p class='price'>Price: R{price:.2f}</p>", unsafe_allow_html=True)
 
-            # Add to Cart button
+            # Add to Cart
             if st.button(f"Add to Cart", key=f"cart_{order}"):
                 st.session_state.cart.append((order, price))
                 st.success(f"{order} added to cart 🛒")
