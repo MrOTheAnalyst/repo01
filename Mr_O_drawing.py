@@ -63,33 +63,35 @@ st.sidebar.title("🛒 Your Cart")
 def display_cart():
     total = sum([item[1] for item in st.session_state.cart])
     if st.session_state.cart:
+        # Show cart items
         for i, (name, price) in enumerate(st.session_state.cart):
             col1, col2 = st.sidebar.columns([3,1])
             col1.write(f"{name} - R{price:.2f}")
             if col2.button("❌", key=f"remove_{i}"):
                 st.session_state.cart.pop(i)
-                return
+                st.experimental_rerun()  # Refresh page so cart updates immediately
+        
         st.sidebar.markdown(f"**Total: R{total:.2f}**")
 
         # WhatsApp link for all cart items
         cart_items = "\n".join([f"{name} - R{price:.2f}" for name, price in st.session_state.cart])
-        wa_message = f"Hello! I would like to order the following items:\n{cart_items}\nTotal: R{total:.2f}"
+        wa_message = f"Hello! Mr. O, I would like to order the following items:\n{cart_items}\nTotal: R{total:.2f}"
         wa_url = f"https://wa.me/{my_number}?text={quote(wa_message)}"
-        
-        # Button styled link
+
+        # Order all button
         st.sidebar.markdown(f"""
-        <a href="{wa_url}" target="_blank">
-            <button style="
-                background-color:#0b3d91;
-                color:white;
-                padding:12px 25px;
-                border:none;
-                border-radius:8px;
-                font-weight:bold;
-                font-size:16px;
-                cursor:pointer;">
-                📲 Order All via WhatsApp
-            </button>
+        <a href="{wa_url}" target="_blank" style="
+            background-color:#0b3d91;
+            color:white;
+            padding:12px 25px;
+            border:none;
+            border-radius:8px;
+            font-weight:bold;
+            font-size:16px;
+            text-decoration:none;
+            display:inline-block;
+            text-align:center;">
+            📲 Order All via WhatsApp
         </a>
         """, unsafe_allow_html=True)
     else:
@@ -99,39 +101,21 @@ display_cart()
 
 # ---------------- PRODUCT GRID ----------------
 st.subheader("Our Products📦🗳️")
-cols = st.columns(3)
 
-for i, (order, img_url, price) in enumerate(products):
-    with cols[i % 3]:
-        st.image(img_url, use_container_width=True)
-        st.markdown(f"### {order}")
-        st.markdown(f"<p class='price'>Price: R{price:.2f}</p>", unsafe_allow_html=True)
+for i in range(0, len(products), 3):
+    cols = st.columns(3)
+    for j, (order, img_url, price) in enumerate(products[i:i+3]):
+        with cols[j]:
+            st.image(img_url, use_container_width=True)
+            st.markdown(f"### {order}")
+            st.markdown(f"<p class='price'>Price: R{price:.2f}</p>", unsafe_allow_html=True)
 
-        # Add to Cart button
-        if st.button(f"Add to Cart", key=f"cart_{order}"):
-            st.session_state.cart.append((order, price))
-            st.success(f"{order} added to cart 🛒")
-
-        # WhatsApp button for single product
-        wa_message = f"Hello! Mr. O, I would like to order {order} for R{price:.2f}"
-        wa_url = f"https://wa.me/{my_number}?text={quote(wa_message)}"
-        st.markdown(f"""
-        <a href="{wa_url}" target="_blank">
-            <button style="
-                background-color:#0b3d91;
-                color:white;
-                padding:12px 25px;
-                border:none;
-                border-radius:8px;
-                font-weight:bold;
-                font-size:16px;
-                cursor:pointer;">
-                📲 Buy via WhatsApp
-            </button>
-        </a>
-        """, unsafe_allow_html=True)
+            # Add to Cart button
+            if st.button(f"Add to Cart", key=f"cart_{order}"):
+                st.session_state.cart.append((order, price))
+                st.success(f"{order} added to cart 🛒")
+                st.experimental_rerun()  # Refresh so sidebar updates instantly
 
 # ---------------- FOOTER ----------------
 st.divider()
 st.markdown("<h4 style='text-align:center; color:#FF6600;'>© 2026 MR. O's STEM ACADEMY | Free Delivery🚚📦</h4>", unsafe_allow_html=True)
-
