@@ -31,7 +31,7 @@ if "cart" not in st.session_state:
 
 # ---------------- PRODUCTS (RANDS ONLY) ----------------
 products = [
-    {"id": "a3", "name": "A3 Paper", "img": "https://raw.githubusercontent.com/MrOTheAnalyst/repo01/main/a3_paper.jpg", "price": 5},
+    {"id": "a3", "name": "A3 Paper", "img": "https://raw.githubusercontent.com/MrOTheAnalyst/repo01/main/a3_paper.jpg", "price": 2},
     {"id": "big_compass", "name": "Big Compass", "img": "https://raw.githubusercontent.com/MrOTheAnalyst/repo01/main/big_compass.jpg", "price": 100},
     {"id": "clutch", "name": "Clutch Pencil", "img": "https://raw.githubusercontent.com/MrOTheAnalyst/repo01/main/clutch_pencil.jpg", "price": 10},
     {"id": "combo", "name": "Combo Set", "img": "https://raw.githubusercontent.com/MrOTheAnalyst/repo01/main/combo.jpg", "price": 95},
@@ -134,3 +134,4 @@ st.markdown(
     "<h4 style='text-align:center; color:#FF6600;'>© 2026 MR. O's STEM ACADEMY | Free Delivery 🚚</h4>",
     unsafe_allow_html=True
 )
+
