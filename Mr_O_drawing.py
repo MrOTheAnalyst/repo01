@@ -8,7 +8,7 @@ Created on Wed Feb  4 19:14:19 2026
 import streamlit as st
 from urllib.parse import quote
 
-# ---------------- PAGE CONFIG ----------------
+# ---------------- CONFIG ----------------
 st.set_page_config(
     page_title="MR. O's STEM ACADEMY",
     page_icon="📐",
@@ -25,33 +25,39 @@ h2 { color: #FF6600; text-align: center; margin-bottom:30px; }
 </style>
 """, unsafe_allow_html=True)
 
-# ---------------- SESSION STATE ----------------
+# ---------------- SESSION STATE (STABLE) ----------------
 if "cart" not in st.session_state:
     st.session_state.cart = {}
 
 # ---------------- PRODUCTS (RANDS ONLY) ----------------
 products = [
-    {"id": "a3", "name": "A3 Paper", "price": 5},
-    {"id": "big_compass", "name": "Big Compass", "price": 100},
-    {"id": "clutch", "name": "Clutch Pencil", "price": 10},
-    {"id": "combo", "name": "Combo Set", "price": 95},
-    {"id": "leads", "name": "Leads", "price": 10},
-    {"id": "bag", "name": "Drawing Bag", "price": 220},
-    {"id": "board", "name": "Drawing Board", "price": 450},
+    {"id": "a3", "name": "A3 Paper", "img": "https://raw.githubusercontent.com/MrOTheAnalyst/repo01/main/a3_paper.jpg", "price": 5},
+    {"id": "big_compass", "name": "Big Compass", "img": "https://raw.githubusercontent.com/MrOTheAnalyst/repo01/main/big_compass.jpg", "price": 100},
+    {"id": "clutch", "name": "Clutch Pencil", "img": "https://raw.githubusercontent.com/MrOTheAnalyst/repo01/main/clutch_pencil.jpg", "price": 10},
+    {"id": "combo", "name": "Combo Set", "img": "https://raw.githubusercontent.com/MrOTheAnalyst/repo01/main/combo.jpg", "price": 95},
+    {"id": "leads", "name": "Compass Leads", "img": "https://raw.githubusercontent.com/MrOTheAnalyst/repo01/main/compass_leads.jpg", "price": 10},
+    {"id": "bag", "name": "Drawing Bag", "img": "https://raw.githubusercontent.com/MrOTheAnalyst/repo01/main/drawing_bag.jpg", "price": 220},
+    {"id": "eraser", "name": "Eraser", "img": "https://raw.githubusercontent.com/MrOTheAnalyst/repo01/main/eraser.jpg", "price": 9},
+    {"id": "shield", "name": "Erasing Shield", "img": "https://raw.githubusercontent.com/MrOTheAnalyst/repo01/main/erasing_shield.jpg", "price": 27},
+    {"id": "curve", "name": "French Curve", "img": "https://raw.githubusercontent.com/MrOTheAnalyst/repo01/main/french_curve.jpg", "price": 45},
+    {"id": "sharpener", "name": "Sharpener", "img": "https://raw.githubusercontent.com/MrOTheAnalyst/repo01/main/sharpener.jpg", "price": 15},
+    {"id": "small_compass", "name": "Small Compass", "img": "https://raw.githubusercontent.com/MrOTheAnalyst/repo01/main/small_compass.jpg", "price": 75},
+    {"id": "stencil", "name": "Stencil", "img": "https://raw.githubusercontent.com/MrOTheAnalyst/repo01/main/stencil.jpg", "price": 33},
+    {"id": "board", "name": "Drawing Board", "img": "https://raw.githubusercontent.com/MrOTheAnalyst/repo01/main/drawing_board.jpg", "price": 450},
 ]
 
 # ---------------- WHATSAPP ----------------
 my_number = "27632757157"
 
-def format_price(rands):
-    return f"R{rands}"
+def money(r):
+    return f"R{r}"
 
 # ---------------- HERO ----------------
 st.markdown("<h1>MR. O's STEM ACADEMY</h1>", unsafe_allow_html=True)
 st.markdown("<h2>Get Equipped for Less – Shop Now!</h2>", unsafe_allow_html=True)
 st.divider()
 
-# ---------------- SIDEBAR CART ----------------
+# ---------------- SIDEBAR CART (BULLETPROOF) ----------------
 st.sidebar.title("🛒 Your Cart")
 
 if not st.session_state.cart:
@@ -65,25 +71,21 @@ else:
         total += line_total
 
         col1, col2 = st.sidebar.columns([3,1])
-        col1.write(
-            f"{item['name']} x{item['qty']} — {format_price(line_total)}"
-        )
+        col1.write(f"{item['name']} x{item['qty']} — {money(line_total)}")
 
         if col2.button("❌", key=f"remove_{pid}"):
             del st.session_state.cart[pid]
             st.rerun()
 
-        wa_lines.append(
-            f"{item['name']} x{item['qty']} - {format_price(line_total)}"
-        )
+        wa_lines.append(f"{item['name']} x{item['qty']} - {money(line_total)}")
 
     st.sidebar.markdown("---")
-    st.sidebar.markdown(f"### Total: {format_price(total)}")
+    st.sidebar.markdown(f"### Total: {money(total)}")
 
     wa_message = (
-        "Hello Mr. O! I would like to order:\n" +
-        "\n".join(wa_lines) +
-        f"\n\nTotal: {format_price(total)}"
+        "Hello Mr. O! I would like to order:\n"
+        + "\n".join(wa_lines)
+        + f"\n\nTotal: {money(total)}"
     )
 
     wa_url = f"https://wa.me/{my_number}?text={quote(wa_message)}"
@@ -111,8 +113,9 @@ cols = st.columns(3)
 
 for i, p in enumerate(products):
     with cols[i % 3]:
+        st.image(p["img"], use_container_width=True)
         st.markdown(f"### {p['name']}")
-        st.markdown(f"<p class='price'>Price: {format_price(p['price'])}</p>", unsafe_allow_html=True)
+        st.markdown(f"<p class='price'>Price: {money(p['price'])}</p>", unsafe_allow_html=True)
 
         if st.button("Add to Cart", key=f"add_{p['id']}"):
             if p["id"] in st.session_state.cart:
