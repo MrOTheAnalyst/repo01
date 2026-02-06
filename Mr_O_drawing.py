@@ -22,16 +22,20 @@ section.main { background-color: #f0f4f8; padding: 30px 50px; }
 h1 { color: #FF6600; font-size: 3rem; text-align: center; }
 h2 { color: #FF6600; text-align: center; margin-bottom:30px; }
 .price { font-size:18px; font-weight:bold; }
+.qty-btn button { width: 100%; }
 </style>
 """, unsafe_allow_html=True)
 
-# ---------------- SESSION STATE (STABLE) ----------------
+# ---------------- SESSION STATE ----------------
 if "cart" not in st.session_state:
     st.session_state.cart = {}
 
+if "customer_name" not in st.session_state:
+    st.session_state.customer_name = ""
+
 # ---------------- PRODUCTS (RANDS ONLY) ----------------
 products = [
-    {"id": "a3", "name": "A3 Paper", "img": "https://raw.githubusercontent.com/MrOTheAnalyst/repo01/main/a3_paper.jpg", "price": 2},
+    {"id": "a3", "name": "A3 Paper", "img": "https://raw.githubusercontent.com/MrOTheAnalyst/repo01/main/a3_paper.jpg", "price": 5},
     {"id": "big_compass", "name": "Big Compass", "img": "https://raw.githubusercontent.com/MrOTheAnalyst/repo01/main/big_compass.jpg", "price": 100},
     {"id": "clutch", "name": "Clutch Pencil", "img": "https://raw.githubusercontent.com/MrOTheAnalyst/repo01/main/clutch_pencil.jpg", "price": 10},
     {"id": "combo", "name": "Combo Set", "img": "https://raw.githubusercontent.com/MrOTheAnalyst/repo01/main/combo.jpg", "price": 95},
@@ -46,18 +50,26 @@ products = [
     {"id": "board", "name": "Drawing Board", "img": "https://raw.githubusercontent.com/MrOTheAnalyst/repo01/main/drawing_board.jpg", "price": 450},
 ]
 
-# ---------------- WHATSAPP ----------------
-my_number = "27632757157"
-
+# ---------------- HELPERS ----------------
 def money(r):
     return f"R{r}"
+
+my_number = "27632757157"
 
 # ---------------- HERO ----------------
 st.markdown("<h1>MR. O's STEM ACADEMY</h1>", unsafe_allow_html=True)
 st.markdown("<h2>Get Equipped for Less – Shop Now!</h2>", unsafe_allow_html=True)
 st.divider()
 
-# ---------------- SIDEBAR CART (BULLETPROOF) ----------------
+# ---------------- SIDEBAR ----------------
+st.sidebar.title("🧾 Customer Details")
+st.session_state.customer_name = st.sidebar.text_input(
+    "Customer name",
+    value=st.session_state.customer_name,
+    placeholder="Enter your name"
+)
+
+st.sidebar.divider()
 st.sidebar.title("🛒 Your Cart")
 
 if not st.session_state.cart:
@@ -70,22 +82,36 @@ else:
         line_total = item["price"] * item["qty"]
         total += line_total
 
-        col1, col2 = st.sidebar.columns([3,1])
-        col1.write(f"{item['name']} x{item['qty']} — {money(line_total)}")
+        col1, col2, col3 = st.sidebar.columns([3,1,1])
 
-        if col2.button("❌", key=f"remove_{pid}"):
-            del st.session_state.cart[pid]
-            st.rerun()
+        col1.write(f"{item['name']} ({money(item['price'])})")
+        col2.write(f"Qty: {item['qty']}")
 
-        wa_lines.append(f"{item['name']} x{item['qty']} - {money(line_total)}")
+        with col3:
+            if st.button("➕", key=f"plus_{pid}"):
+                item["qty"] += 1
+                st.rerun()
+            if st.button("➖", key=f"minus_{pid}"):
+                item["qty"] -= 1
+                if item["qty"] <= 0:
+                    del st.session_state.cart[pid]
+                st.rerun()
+
+        wa_lines.append(
+            f"{item['name']} x{item['qty']} - {money(line_total)}"
+        )
 
     st.sidebar.markdown("---")
     st.sidebar.markdown(f"### Total: {money(total)}")
 
+    customer = st.session_state.customer_name or "Customer"
+
     wa_message = (
-        "Hello Mr. O! I would like to order:\n"
-        + "\n".join(wa_lines)
-        + f"\n\nTotal: {money(total)}"
+        f"Hello Mr. O!\n\n"
+        f"Customer: {customer}\n\n"
+        "Order:\n" +
+        "\n".join(wa_lines) +
+        f"\n\nTotal: {money(total)}"
     )
 
     wa_url = f"https://wa.me/{my_number}?text={quote(wa_message)}"
@@ -108,7 +134,6 @@ else:
 
 # ---------------- PRODUCT GRID ----------------
 st.subheader("Our Products 📦")
-
 cols = st.columns(3)
 
 for i, p in enumerate(products):
@@ -131,7 +156,6 @@ for i, p in enumerate(products):
 # ---------------- FOOTER ----------------
 st.divider()
 st.markdown(
-    "<h4 style='text-align:center; color:#FF6600;'>© 2026 MR. O's STEM ACADEMY | Free Delivery 🚚</h4>",
+    "<h4 style='text-align:center; color:#FF6600;'>MR. O's STEM ACADEMY | Free Delivery 🚚</h4>",
     unsafe_allow_html=True
 )
-
