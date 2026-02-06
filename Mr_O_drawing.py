@@ -81,7 +81,7 @@ def display_cart():
         total = sum([item[1] for item in st.session_state.cart])
         st.sidebar.markdown(f"**Total: R{total:.2f}**")
 
-        # WhatsApp order link (if cart not empty)
+        # WhatsApp order link
         if st.session_state.cart:
             cart_items = "\n".join([f"{name} - R{price:.2f}" for name, price in st.session_state.cart])
             wa_message = f"Hello! Mr. O, I would like to order the following items:\n{cart_items}\nTotal: R{total:.2f}"
@@ -118,12 +118,12 @@ for i in range(0, len(products), 3):
             st.markdown(f"### {order}")
             st.markdown(f"<p class='price'>Price: R{price:.2f}</p>", unsafe_allow_html=True)
 
-            # Add to Cart
-            if st.button(f"Add to Cart", key=f"cart_{order}"):
+            # Add to Cart with unique key using index
+            unique_key = f"cart_{i+j}_{order}"
+            if st.button("Add to Cart", key=unique_key):
                 st.session_state.cart.append((order, price))
                 st.success(f"{order} added to cart 🛒")
 
 # ---------------- FOOTER ----------------
 st.divider()
 st.markdown("<h4 style='text-align:center; color:#FF6600;'>© 2026 MR. O's STEM ACADEMY | Free Delivery🚚📦</h4>", unsafe_allow_html=True)
-
