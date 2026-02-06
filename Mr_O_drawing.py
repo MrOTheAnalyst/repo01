@@ -8,7 +8,7 @@ Created on Wed Feb  4 19:14:19 2026
 import streamlit as st
 from urllib.parse import quote
 
-# ---------------- CONFIG ----------------
+# ---------------- PAGE CONFIG ----------------
 st.set_page_config(
     page_title="MR. O's STEM ACADEMY",
     page_icon="📐",
@@ -19,111 +19,115 @@ st.set_page_config(
 st.markdown("""
 <style>
 section.main { background-color: #f0f4f8; padding: 30px 50px; }
-h1 { font-family: 'Poppins', sans-serif; color: #FF6600; font-size: 3rem; text-align: center; }
-h2 { font-family: 'Poppins', sans-serif; color: #FF6600; font-size: 2rem; text-align: center; margin-bottom:30px; }
-div.stImage { border-radius:15px; box-shadow:0 5px 20px rgba(0,0,0,0.15); transition: transform 0.2s; }
-div.stImage:hover { transform: scale(1.05); }
-h3 { font-size:1.6rem; color:#0b3d91; margin-top:10px; }
+h1 { color: #FF6600; font-size: 3rem; text-align: center; }
+h2 { color: #FF6600; text-align: center; margin-bottom:30px; }
 .price { font-size:18px; font-weight:bold; }
 </style>
 """, unsafe_allow_html=True)
 
-# ---------------- HERO ----------------
-st.markdown("<h1> MR. O's STEM ACADEMY</h1>", unsafe_allow_html=True)
-st.markdown("<h2>Get Equipped for Less – Shop Now!</h2>", unsafe_allow_html=True)
-st.divider()
+# ---------------- SESSION STATE ----------------
+if "cart" not in st.session_state:
+    st.session_state.cart = {}
 
-# ---------------- PRODUCTS ----------------
+# ---------------- PRODUCTS (RANDS ONLY) ----------------
 products = [
-    ("A3 Paper", "https://raw.githubusercontent.com/MrOTheAnalyst/repo01/main/a3_paper.jpg", 1.99),
-    ("Big Compass", "https://raw.githubusercontent.com/MrOTheAnalyst/repo01/main/big_compass.jpg", 99.99),
-    ("Clutch Pencil", "https://raw.githubusercontent.com/MrOTheAnalyst/repo01/main/clutch_pencil.jpg", 9.99),
-    ("Combo Set", "https://raw.githubusercontent.com/MrOTheAnalyst/repo01/main/combo.jpg", 94.99),
-    ("Compass Leads", "https://raw.githubusercontent.com/MrOTheAnalyst/repo01/main/compass_leads.jpg", 9.99),
-    ("Drawing Bag", "https://raw.githubusercontent.com/MrOTheAnalyst/repo01/main/drawing_bag.jpg", 219.99),
-    ("Eraser", "https://raw.githubusercontent.com/MrOTheAnalyst/repo01/main/eraser.jpg", 8.99),
-    ("Erasing Shield", "https://raw.githubusercontent.com/MrOTheAnalyst/repo01/main/erasing_shield.jpg", 26.99),
-    ("French Curve", "https://raw.githubusercontent.com/MrOTheAnalyst/repo01/main/french_curve.jpg", 44.99),
-    ("Leads", "https://raw.githubusercontent.com/MrOTheAnalyst/repo01/main/leads.jpg", 9.99),
-    ("Sharpener", "https://raw.githubusercontent.com/MrOTheAnalyst/repo01/main/sharpener.jpg", 14.99),
-    ("Small Compass", "https://raw.githubusercontent.com/MrOTheAnalyst/repo01/main/small_compass.jpg", 74.99),
-    ("Stencil", "https://raw.githubusercontent.com/MrOTheAnalyst/repo01/main/stencil.jpg", 32.99),
-    ("Drawing Board", "https://raw.githubusercontent.com/MrOTheAnalyst/repo01/main/drawing_board.jpg", 449.99),
+    {"id": "a3", "name": "A3 Paper", "price": 5},
+    {"id": "big_compass", "name": "Big Compass", "price": 100},
+    {"id": "clutch", "name": "Clutch Pencil", "price": 10},
+    {"id": "combo", "name": "Combo Set", "price": 95},
+    {"id": "leads", "name": "Leads", "price": 10},
+    {"id": "bag", "name": "Drawing Bag", "price": 220},
+    {"id": "board", "name": "Drawing Board", "price": 450},
 ]
 
-# ---------------- SESSION STATE ----------------
-if 'cart' not in st.session_state:
-    st.session_state.cart = []
+# ---------------- WHATSAPP ----------------
+my_number = "27632757157"
 
-my_number = "27632757157"  # WhatsApp number
+def format_price(rands):
+    return f"R{rands}"
+
+# ---------------- HERO ----------------
+st.markdown("<h1>MR. O's STEM ACADEMY</h1>", unsafe_allow_html=True)
+st.markdown("<h2>Get Equipped for Less – Shop Now!</h2>", unsafe_allow_html=True)
+st.divider()
 
 # ---------------- SIDEBAR CART ----------------
 st.sidebar.title("🛒 Your Cart")
 
-def display_cart():
-    total = sum([item[1] for item in st.session_state.cart])
-    
-    if st.session_state.cart:
-        remove_indices = []  # indices to remove after loop
+if not st.session_state.cart:
+    st.sidebar.write("Your cart is empty")
+else:
+    total = 0
+    wa_lines = []
 
-        for i, (name, price) in enumerate(st.session_state.cart):
-            col1, col2 = st.sidebar.columns([3,1])
-            col1.write(f"{name} - R{price:.2f}")
-            
-            if col2.button("❌", key=f"remove_{i}"):
-                remove_indices.append(i)
+    for pid, item in st.session_state.cart.items():
+        line_total = item["price"] * item["qty"]
+        total += line_total
 
-        # Remove marked items safely
-        for index in sorted(remove_indices, reverse=True):
-            st.session_state.cart.pop(index)
+        col1, col2 = st.sidebar.columns([3,1])
+        col1.write(
+            f"{item['name']} x{item['qty']} — {format_price(line_total)}"
+        )
 
-        # Update total
-        total = sum([item[1] for item in st.session_state.cart])
-        st.sidebar.markdown(f"**Total: R{total:.2f}**")
+        if col2.button("❌", key=f"remove_{pid}"):
+            del st.session_state.cart[pid]
+            st.rerun()
 
-        # WhatsApp order link
-        if st.session_state.cart:
-            cart_items = "\n".join([f"{name} - R{price:.2f}" for name, price in st.session_state.cart])
-            wa_message = f"Hello! Mr. O, I would like to order the following items:\n{cart_items}\nTotal: R{total:.2f}"
-            wa_url = f"https://wa.me/{my_number}?text={quote(wa_message)}"
+        wa_lines.append(
+            f"{item['name']} x{item['qty']} - {format_price(line_total)}"
+        )
 
-            st.sidebar.markdown(f"""
-            <a href="{wa_url}" target="_blank" style="
-                background-color:#0b3d91;
-                color:white;
-                padding:12px 25px;
-                border:none;
-                border-radius:8px;
-                font-weight:bold;
-                font-size:16px;
-                text-decoration:none;
-                display:inline-block;
-                text-align:center;">
-                📲 Order All via WhatsApp
-            </a>
-            """, unsafe_allow_html=True)
-    else:
-        st.sidebar.write("Your cart is empty")
+    st.sidebar.markdown("---")
+    st.sidebar.markdown(f"### Total: {format_price(total)}")
 
-display_cart()
+    wa_message = (
+        "Hello Mr. O! I would like to order:\n" +
+        "\n".join(wa_lines) +
+        f"\n\nTotal: {format_price(total)}"
+    )
+
+    wa_url = f"https://wa.me/{my_number}?text={quote(wa_message)}"
+
+    st.sidebar.markdown(f"""
+    <a href="{wa_url}" target="_blank">
+        <button style="
+            background-color:#0b3d91;
+            color:white;
+            padding:12px 25px;
+            border:none;
+            border-radius:8px;
+            font-weight:bold;
+            font-size:16px;
+            cursor:pointer;">
+            📲 Order via WhatsApp
+        </button>
+    </a>
+    """, unsafe_allow_html=True)
 
 # ---------------- PRODUCT GRID ----------------
-st.subheader("Our Products📦🗳️")
+st.subheader("Our Products 📦")
 
-for i in range(0, len(products), 3):
-    cols = st.columns(3)
-    for j, (order, img_url, price) in enumerate(products[i:i+3]):
-        with cols[j]:
-            st.image(img_url, use_container_width=True)
-            st.markdown(f"### {order}")
-            st.markdown(f"<p class='price'>Price: R{price:.2f}</p>", unsafe_allow_html=True)
+cols = st.columns(3)
 
-            # Add to Cart with unique key using index
-            unique_key = f"cart_{i+j}_{order}"
-            if st.button("Add to Cart", key=unique_key):
-                st.session_state.cart.append((order, price))
-                st.success(f"{order} added to cart 🛒")
+for i, p in enumerate(products):
+    with cols[i % 3]:
+        st.markdown(f"### {p['name']}")
+        st.markdown(f"<p class='price'>Price: {format_price(p['price'])}</p>", unsafe_allow_html=True)
+
+        if st.button("Add to Cart", key=f"add_{p['id']}"):
+            if p["id"] in st.session_state.cart:
+                st.session_state.cart[p["id"]]["qty"] += 1
+            else:
+                st.session_state.cart[p["id"]] = {
+                    "name": p["name"],
+                    "price": p["price"],
+                    "qty": 1
+                }
+            st.rerun()
 
 # ---------------- FOOTER ----------------
 st.divider()
-st.markdown("<h4 style='text-align:center; color:#FF6600;'>© 2026 MR. O's STEM ACADEMY | Free Delivery🚚📦</h4>", unsafe_allow_html=True)
+st.markdown(
+    "<h4 style='text-align:center; color:#FF6600;'>© 2026 MR. O's STEM ACADEMY | Free Delivery 🚚</h4>",
+    unsafe_allow_html=True
+)
