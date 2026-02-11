@@ -14,51 +14,63 @@ import time
 st.set_page_config(page_title="💖 Mr. O's Valentine 💖", page_icon="💌", layout="centered")
 
 # ------------------------------
-# CUSTOM CSS (background + fonts + buttons)
+# CUSTOM CSS FOR BACKGROUND, TEXT, BUTTON, FLOATING HEARTS
 # ------------------------------
-st.markdown(
-    """
-    <style>
-    /* Full background gradient */
-    .stApp {
-        background: linear-gradient(to bottom right, #ffafbd, #ffc3a0);
-        background-attachment: fixed;
-    }
-    /* Big Title */
-    .big-title {
-        font-size: 60px;
-        font-weight: bold;
-        text-align: center;
-        margin-top: 50px;
-        color: #800020;
-    }
-    /* Subheading */
-    .subheading {
-        font-size: 36px;
-        text-align: center;
-        margin-bottom: 40px;
-        color: #800020;
-    }
-    /* YES button */
-    div.stButton > button {
-        font-size: 50px;
-        padding: 30px 60px;
-        background-color: #ff1493;
-        color: white;
-        border-radius: 20px;
-        border: none;
-    }
-    /* Romantic messages */
-    .message {
-        font-size: 32px;
-        margin: 20px 0;
-        text-align: center;
-        color: #800020;
-    }
-    </style>
-    """,
-    unsafe_allow_html=True
-)
+st.markdown("""
+<style>
+/* Background gradient */
+.stApp {
+    background: linear-gradient(to bottom right, #ffafbd, #ffc3a0);
+    background-attachment: fixed;
+}
+
+/* Big Title */
+.big-title {
+    font-size: 60px;
+    font-weight: bold;
+    text-align: center;
+    margin-top: 50px;
+    color: #800020;
+}
+
+/* Subheading */
+.subheading {
+    font-size: 36px;
+    text-align: center;
+    margin-bottom: 40px;
+    color: #800020;
+}
+
+/* YES Button */
+div.stButton > button {
+    font-size: 50px;
+    padding: 30px 60px;
+    background-color: #ff1493;
+    color: white;
+    border-radius: 20px;
+    border: none;
+}
+
+/* Romantic messages */
+.message {
+    font-size: 32px;
+    margin: 20px 0;
+    text-align: center;
+    color: #800020;
+}
+
+/* Floating hearts and flowers */
+@keyframes floatUp {
+    0% { transform: translateY(100vh) translateX(0px); opacity: 1; }
+    100% { transform: translateY(-10vh) translateX(50px); opacity: 0; }
+}
+.floating {
+    position: fixed;
+    font-size: 30px;
+    animation: floatUp 6s linear infinite;
+}
+</style>
+""", unsafe_allow_html=True)
 
 # ------------------------------
 # TITLE + SUBHEADING
@@ -71,10 +83,27 @@ st.markdown('<h2 class="subheading">Will you be my Valentine? 💌</h2>', unsafe
 # ------------------------------
 if st.button("YES! 💖", key="yes_button"):
     
-    # BALLONS FOR FUN
+    # Add floating hearts and flowers
+    st.markdown("""
+    <div class="floating" style="left:10%;">💖</div>
+    <div class="floating" style="left:30%; animation-delay: 1s;">🌸</div>
+    <div class="floating" style="left:50%; animation-delay: 2s;">💌</div>
+    <div class="floating" style="left:70%; animation-delay: 3s;">🌹</div>
+    <div class="floating" style="left:90%; animation-delay: 4s;">💖</div>
+    """, unsafe_allow_html=True)
+    
+    # Add background music (autoplay may not work in all browsers, but clickable works)
+    st.markdown("""
+    <audio controls autoplay loop>
+      <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg">
+    Your browser does not support the audio element.
+    </audio>
+    """, unsafe_allow_html=True)
+    
+    # Balloons
     st.balloons()
     
-    # ROMANTIC MESSAGES APPEARING SLOWLY
+    # Romantic messages
     messages = [
         "OMG 😍 You said YES!",
         "I can’t wait to spend more magical moments with you 🥰",
@@ -86,10 +115,10 @@ if st.button("YES! 💖", key="yes_button"):
     placeholder = st.empty()
     for msg in messages:
         placeholder.markdown(f'<p class="message">{msg}</p>', unsafe_allow_html=True)
-        time.sleep(2)  # slow reveal
-
-    # GIF OF "I LOVE YOU"
+        time.sleep(2)
+    
+    # GIF of I LOVE YOU
     st.image("https://media.giphy.com/media/3o7TKtnuHOHHUjR38Y/giphy.gif", use_column_width=True)
-
-    # EXTRA HEARTS AND FLOWERS
+    
+    # Extra emojis for effect
     st.markdown('<h1>💖💌🌹💖💌🌹💖</h1>', unsafe_allow_html=True)
