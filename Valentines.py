@@ -14,7 +14,7 @@ import time
 st.set_page_config(page_title="💖 Mr. O's Valentine 💖", page_icon="💌", layout="centered")
 
 # ------------------------------
-# CUSTOM CSS FOR BACKGROUND, TEXT, BUTTON, FLOATING HEARTS
+# CUSTOM CSS
 # ------------------------------
 st.markdown("""
 <style>
@@ -59,7 +59,7 @@ div.stButton > button {
     color: #800020;
 }
 
-/* Floating hearts and flowers */
+/* Floating hearts and flowers animation */
 @keyframes floatUp {
     0% { transform: translateY(100vh) translateX(0px); opacity: 1; }
     100% { transform: translateY(-10vh) translateX(50px); opacity: 0; }
@@ -81,9 +81,9 @@ st.markdown('<h2 class="subheading">Will you be my Valentine? 💌</h2>', unsafe
 # ------------------------------
 # YES BUTTON
 # ------------------------------
-if st.button("YES! 💖", key="yes_button"):
+if st.button("YES! 💖"):
     
-    # Add floating hearts and flowers
+    # Floating hearts & flowers
     st.markdown("""
     <div class="floating" style="left:10%;">💖</div>
     <div class="floating" style="left:30%; animation-delay: 1s;">🌸</div>
@@ -91,34 +91,25 @@ if st.button("YES! 💖", key="yes_button"):
     <div class="floating" style="left:70%; animation-delay: 3s;">🌹</div>
     <div class="floating" style="left:90%; animation-delay: 4s;">💖</div>
     """, unsafe_allow_html=True)
-    
-    # Add background music (autoplay may not work in all browsers, but clickable works)
-    st.markdown("""
-    <audio controls autoplay loop>
-      <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg">
-    Your browser does not support the audio element.
-    </audio>
-    """, unsafe_allow_html=True)
-    
-    # Balloons
+
+    # Balloons 🎈
     st.balloons()
-    
-    # Romantic messages
+
+    # Slow romantic message reveal
     messages = [
         "OMG 😍 You said YES!",
         "I can’t wait to spend more magical moments with you 🥰",
         "You make my heart skip a beat ❤️",
-        "Every day with you feels like a dream 🌸",
-        "I LOVE YOU 💌"
+        "Every second with you feels like a dream 🌸",
+        "This song is for you… 💌"
     ]
-    
     placeholder = st.empty()
     for msg in messages:
         placeholder.markdown(f'<p class="message">{msg}</p>', unsafe_allow_html=True)
         time.sleep(2)
-    
-    # GIF of I LOVE YOU
-    st.image("https://media.giphy.com/media/3o7TKtnuHOHHUjR38Y/giphy.gif", use_column_width=True)
-    
-    # Extra emojis for effect
+
+    # Embedded YouTube music video 🎵
+    st.video("https://www.youtube.com/watch?v=oYFZI-_XhLU")
+
+    # More hearts ❤️🌹💌
     st.markdown('<h1>💖💌🌹💖💌🌹💖</h1>', unsafe_allow_html=True)
