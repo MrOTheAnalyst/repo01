@@ -11,69 +11,59 @@ import time
 # ------------------------------
 # PAGE SETUP
 # ------------------------------
-st.set_page_config(page_title="💖 Happy Valentine's Day 💖", page_icon="💌", layout="centered")
+st.set_page_config(page_title="💖 Mr. O's Valentine 💖", page_icon="💌", layout="centered")
 
-# Custom CSS for background gradient, fonts, and styling
+# Custom CSS for full background and styling
 st.markdown(
     """
     <style>
     body {
-        background: linear-gradient(to bottom right, #ffc1cc, #ffe0e6);
+        background: linear-gradient(to bottom right, #ffafbd, #ffc3a0);
         font-family: 'Comic Sans MS', cursive, sans-serif;
         color: #800020;
         text-align: center;
     }
     .big-title {
-        font-size: 48px;
+        font-size: 60px;
         font-weight: bold;
-        margin-top: 20px;
+        margin-top: 50px;
+    }
+    .subheading {
+        font-size: 36px;
+        margin-bottom: 40px;
+    }
+    .yes-button {
+        font-size: 50px !important;
+        padding: 30px 60px !important;
+        background-color: #ff1493 !important;
+        color: white !important;
+        border-radius: 20px !important;
     }
     .message {
-        font-size: 28px;
+        font-size: 32px;
         margin: 20px 0;
-        transition: all 1s ease-in-out;
-    }
-    .surprise {
-        font-size: 36px;
-        margin-top: 30px;
-        color: #ff1493;
-        font-weight: bold;
     }
     </style>
     """,
     unsafe_allow_html=True
 )
 
-st.markdown('<h1 class="big-title">💌 Happy Valentine\'s Day 💌</h1>', unsafe_allow_html=True)
-st.markdown('<h3>Today is all about YOU ❤️</h3>', unsafe_allow_html=True)
+# ------------------------------
+# TITLE + SUBHEADING
+# ------------------------------
+st.markdown('<h1 class="big-title">Mr. O</h1>', unsafe_allow_html=True)
+st.markdown('<h2 class="subheading">Will you be my Valentine? 💌</h2>', unsafe_allow_html=True)
 
 # ------------------------------
-# ROMANTIC MESSAGES
+# YES BUTTON
 # ------------------------------
-messages = [
-    "You are the first thing on my mind this morning 💭",
-    "Your smile lights up my world 🌸",
-    "Every moment with you feels magical ✨",
-    "I can't wait to make more memories with you 🥰",
-    "You make my heart skip a beat ❤️"
-]
-
-placeholder = st.empty()  # container for slow message reveal
-
-for msg in messages:
-    placeholder.markdown(f'<p class="message">{msg}</p>', unsafe_allow_html=True)
-    time.sleep(2)  # pause between messages
-
-# ------------------------------
-# BIG SURPRISE BUTTON
-# ------------------------------
-if st.button("💖 Open Your Surprise 💖"):
-    st.markdown('<h2 class="surprise">🎉 YOU ARE AMAZING 🎉</h2>', unsafe_allow_html=True)
-    st.markdown('<h3>I hope your day is as incredible as your smile 😘</h3>', unsafe_allow_html=True)
-    st.markdown('<h1>💌💌💌💌💌</h1>', unsafe_allow_html=True)
+if st.button("YES! 💖", key="yes_button"):
+    # BIG ROMANTIC REVEAL
+    st.balloons()  # Streamlit balloons for fun effect
+    st.markdown('<h2 class="message">OMG 😍 You said YES!</h2>', unsafe_allow_html=True)
+    st.markdown('<h2 class="message">I can’t wait to spend more magical moments with you 🥰</h2>', unsafe_allow_html=True)
+    st.markdown('<h2 class="message">You make my heart skip a beat ❤️🌸</h2>', unsafe_allow_html=True)
     
-    # Cute GIF for maximum effect
+    # GIF + emojis for max effect
     st.image("https://media.giphy.com/media/xT0xeJpnrWC4XWblEk/giphy.gif", use_column_width=True)
-
-    # Optional: add more floating hearts or emojis
-    st.markdown('<h1>💖🌸💖🌸💖</h1>', unsafe_allow_html=True)
+    st.markdown('<h1>💖💌🌹💖💌🌹💖</h1>', unsafe_allow_html=True)
