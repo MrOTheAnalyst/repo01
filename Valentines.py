@@ -8,14 +8,10 @@ Created on Wed Feb 11 22:38:24 2026
 import streamlit as st
 import time
 
-# ------------------------------
-# PAGE SETUP
-# ------------------------------
+# Page setup
 st.set_page_config(page_title="💖 Mr. O's Valentine 💖", page_icon="💌", layout="centered")
 
-# ------------------------------
-# CUSTOM CSS
-# ------------------------------
+# Custom CSS
 st.markdown("""
 <style>
 /* Background gradient */
@@ -23,7 +19,6 @@ st.markdown("""
     background: linear-gradient(to bottom right, #ffafbd, #ffc3a0);
     background-attachment: fixed;
 }
-
 /* Big Title */
 .big-title {
     font-size: 60px;
@@ -32,7 +27,6 @@ st.markdown("""
     margin-top: 50px;
     color: #800020;
 }
-
 /* Subheading */
 .subheading {
     font-size: 36px;
@@ -40,7 +34,6 @@ st.markdown("""
     margin-bottom: 40px;
     color: #800020;
 }
-
 /* YES Button */
 div.stButton > button {
     font-size: 50px;
@@ -50,7 +43,6 @@ div.stButton > button {
     border-radius: 20px;
     border: none;
 }
-
 /* Romantic messages */
 .message {
     font-size: 32px;
@@ -58,8 +50,7 @@ div.stButton > button {
     text-align: center;
     color: #800020;
 }
-
-/* Floating hearts and flowers animation */
+/* Floating hearts animation */
 @keyframes floatUp {
     0% { transform: translateY(100vh) translateX(0px); opacity: 1; }
     100% { transform: translateY(-10vh) translateX(50px); opacity: 0; }
@@ -72,18 +63,14 @@ div.stButton > button {
 </style>
 """, unsafe_allow_html=True)
 
-# ------------------------------
-# TITLE + SUBHEADING
-# ------------------------------
+# Title and subheading
 st.markdown('<h1 class="big-title">Mr. O</h1>', unsafe_allow_html=True)
 st.markdown('<h2 class="subheading">Will you be my Valentine? 💌</h2>', unsafe_allow_html=True)
 
-# ------------------------------
-# YES BUTTON
-# ------------------------------
+# YES button
 if st.button("YES! 💖"):
     
-    # Floating hearts & flowers
+    # Floating hearts
     st.markdown("""
     <div class="floating" style="left:10%;">💖</div>
     <div class="floating" style="left:30%; animation-delay: 1s;">🌸</div>
@@ -92,10 +79,10 @@ if st.button("YES! 💖"):
     <div class="floating" style="left:90%; animation-delay: 4s;">💖</div>
     """, unsafe_allow_html=True)
 
-    # Balloons 🎈
+    # Balloons
     st.balloons()
 
-    # Slow romantic message reveal
+    # Slow message reveal
     messages = [
         "OMG 😍 You said YES!",
         "I can’t wait to spend more magical moments with you 🥰",
@@ -108,8 +95,5 @@ if st.button("YES! 💖"):
         placeholder.markdown(f'<p class="message">{msg}</p>', unsafe_allow_html=True)
         time.sleep(2)
 
-    # Embedded YouTube music video 🎵
-    st.video("https://www.youtube.com/watch?v=oYFZI-_XhLU")
-
-    # More hearts ❤️🌹💌
-    st.markdown('<h1>💖💌🌹💖💌🌹💖</h1>', unsafe_allow_html=True)
+    # Embed YouTube music video for "Nawe" by Simmy
+    st.video("https://www.youtube.com/watch?v=L7wXeG1aYQQ")
