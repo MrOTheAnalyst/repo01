@@ -11,81 +11,124 @@ import time
 
 st.set_page_config(page_title="💘 Mr. O", layout="centered")
 
-# -------------------------
-# BACKGROUND STYLE
-# -------------------------
+# -------------------------------------------------
+# 🌌 MASSIVE ROMANTIC STYLE
+# -------------------------------------------------
 st.markdown("""
 <style>
 .stApp {
-    background: linear-gradient(135deg, #5f0a87, #a4508b);
+    background: linear-gradient(135deg, #2b1055, #7597de);
     overflow: hidden;
 }
 
+/* Glass Card */
 .card {
-    background: rgba(255,255,255,0.08);
+    background: rgba(255, 255, 255, 0.1);
     padding: 60px;
-    border-radius: 25px;
+    border-radius: 30px;
     text-align: center;
     color: white;
-    box-shadow: 0px 20px 60px rgba(0,0,0,0.4);
-    backdrop-filter: blur(12px);
+    box-shadow: 0px 25px 80px rgba(0,0,0,0.5);
+    backdrop-filter: blur(15px);
     animation: fadeIn 1.5s ease-in-out;
 }
 
+/* Glow Text */
 h1, h2, h3 {
-    text-shadow: 0px 0px 25px rgba(255,255,255,0.7);
+    text-shadow: 0px 0px 30px rgba(255,255,255,0.8);
 }
 
+/* Fade Animation */
 @keyframes fadeIn {
-    from {opacity: 0; transform: translateY(30px);}
+    from {opacity: 0; transform: translateY(40px);}
     to {opacity: 1; transform: translateY(0);}
 }
 
-/* 🌸 FLOWERS */
+/* 🌸 Falling Flowers */
 .flower {
     position: fixed;
     top: -50px;
-    font-size: 25px;
-    animation: fall 8s linear infinite;
+    font-size: 28px;
+    animation: fall linear infinite;
+    z-index: 0;
 }
 
 @keyframes fall {
     0% { transform: translateY(0); opacity: 1; }
-    100% { transform: translateY(110vh); opacity: 0; }
+    100% { transform: translateY(120vh); opacity: 0; }
+}
+
+/* ❤️ Floating Hearts */
+.heart {
+    position: fixed;
+    bottom: -40px;
+    font-size: 22px;
+    animation: rise linear infinite;
+    z-index: 0;
+}
+
+@keyframes rise {
+    0% { transform: translateY(0); opacity: 1; }
+    100% { transform: translateY(-120vh); opacity: 0; }
+}
+
+button[kind="primary"] {
+    background-color: #ff4d6d !important;
+    border-radius: 40px !important;
+    height: 3.2em;
+    width: 13em;
+    font-size: 18px;
+    font-weight: bold;
 }
 </style>
 """, unsafe_allow_html=True)
 
-# -------------------------
+# -------------------------------------------------
 # 🎵 BACKGROUND MUSIC (RAW GITHUB LINK)
-# -------------------------
+# -------------------------------------------------
 st.audio(
-    "https://raw.githubusercontent.com/MrOTheAnalyst/repo01/refs/heads/main/iloveyou.mp3",
-    format="audio/mp3"
+    "https://raw.githubusercontent.com/MrOTheAnalyst/repo01/main/iloveyou.mpeg",
+    format="audio/mpeg"
 )
 
-# -------------------------
-# 🌸 FLOATING FLOWERS
-# -------------------------
+# -------------------------------------------------
+# 🌸 FLOWERS + ❤️ HEARTS
+# -------------------------------------------------
 flowers = ["🌸", "🌺", "🌷", "💐"]
-
-for i in range(25):
+for i in range(30):
     left = random.randint(0, 100)
+    duration = random.randint(6, 12)
     delay = random.uniform(0, 5)
     flower = random.choice(flowers)
 
     st.markdown(
         f"""
-        <div class="flower" style="left:{left}%; animation-delay:{delay}s;">
-            {flower}
+        <div class="flower" 
+             style="left:{left}%; animation-duration:{duration}s; animation-delay:{delay}s;">
+             {flower}
         </div>
         """,
         unsafe_allow_html=True,
     )
 
-# -------------------------
-# LOVE MESSAGES
-# -------------------------
+for i in range(20):
+    left = random.randint(0, 100)
+    duration = random.randint(5, 10)
+    delay = random.uniform(0, 5)
+
+    st.markdown(
+        f"""
+        <div class="heart"
+             style="left:{left}%; animation-duration:{duration}s; animation-delay:{delay}s;">
+             ❤️
+        </div>
+        """,
+        unsafe_allow_html=True,
+    )
+
+# -------------------------------------------------
+# 💌 LOVE MESSAGES
+# -------------------------------------------------
 LOVE_MESSAGES = [
     "Loving you was never a question.",
     "It was patience.",
@@ -94,23 +137,26 @@ LOVE_MESSAGES = [
     "My safe place.",
     "My heart.",
     "You feel like home.",
+    "Every day with you feels intentional.",
     "This isn't a moment.",
     "It's a continuation.",
     "Forever starts with you.",
-    "Every day with you feels intentional.",
-    "You are my answered prayer."
+    "You are my answered prayer.",
+    "You are my greatest blessing.",
+    "With you, life feels complete.",
+    "I choose you. Always."
 ]
 
-# -------------------------
-# SESSION STATE
-# -------------------------
-if "start" not in st.session_state:
-    st.session_state.start = False
+# -------------------------------------------------
+# SESSION CONTROL
+# -------------------------------------------------
+if "page" not in st.session_state:
+    st.session_state.page = 1
 
-# -------------------------
-# FIRST SCREEN
-# -------------------------
-if not st.session_state.start:
+# -------------------------------------------------
+# 💖 SCREEN 1 — PROPOSAL
+# -------------------------------------------------
+if st.session_state.page == 1:
 
     st.markdown("""
     <div class="card">
@@ -121,19 +167,36 @@ if not st.session_state.start:
     </div>
     """, unsafe_allow_html=True)
 
-    if st.button("YES 💖"):
-        st.session_state.start = True
+    if st.button("YES 💖", type="primary"):
+        st.session_state.page = 2
         st.rerun()
 
-# -------------------------
-# LOVE MESSAGE SCREEN
-# -------------------------
-else:
+# -------------------------------------------------
+# ✨ SCREEN 2 — BUILD SUSPENSE
+# -------------------------------------------------
+elif st.session_state.page == 2:
+
+    st.markdown("""
+    <div class="card">
+        <h2>One More Thing… ✨</h2>
+        <p>A special love letter is about to unfold.</p>
+        <p>Ready?</p>
+    </div>
+    """, unsafe_allow_html=True)
+
+    if st.button("Open My Heart 💘", type="primary"):
+        st.session_state.page = 3
+        st.rerun()
+
+# -------------------------------------------------
+# 💌 SCREEN 3 — AUTO LOVE MODE
+# -------------------------------------------------
+elif st.session_state.page == 3:
 
     placeholder = st.empty()
     st.balloons()
 
-    for i in range(1000):
+    for i in range(500):
 
         message = random.choice(LOVE_MESSAGES)
 
@@ -148,4 +211,3 @@ else:
         """, unsafe_allow_html=True)
 
         time.sleep(4)
-
