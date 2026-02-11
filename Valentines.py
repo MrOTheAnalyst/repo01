@@ -6,94 +6,180 @@ Created on Wed Feb 11 22:38:24 2026
 """
 
 import streamlit as st
+import random
 import time
 
-# Page setup
-st.set_page_config(page_title="💖 Mr. O's Valentine 💖", page_icon="💌", layout="centered")
+st.set_page_config(
+    page_title="💘 Mr. O",
+    page_icon="❤️",
+    layout="centered"
+)
 
-# Custom CSS
+# -----------------------------
+# CUSTOM CSS (ROMANTIC THEME)
+# -----------------------------
 st.markdown("""
 <style>
-/* Background gradient */
-.stApp {
-    background: linear-gradient(to bottom right, #ffafbd, #ffc3a0);
-    background-attachment: fixed;
+body {
+    background: linear-gradient(135deg, #5f0a87, #a4508b);
+    overflow: hidden;
 }
-/* Big Title */
-.big-title {
-    font-size: 60px;
-    font-weight: bold;
+
+.main {
+    background: transparent;
+}
+
+.card {
+    background: rgba(255,255,255,0.08);
+    padding: 50px;
+    border-radius: 25px;
     text-align: center;
-    margin-top: 50px;
-    color: #800020;
-}
-/* Subheading */
-.subheading {
-    font-size: 36px;
-    text-align: center;
-    margin-bottom: 40px;
-    color: #800020;
-}
-/* YES Button */
-div.stButton > button {
-    font-size: 50px;
-    padding: 30px 60px;
-    background-color: #ff1493;
     color: white;
-    border-radius: 20px;
-    border: none;
+    box-shadow: 0px 15px 50px rgba(0,0,0,0.4);
+    backdrop-filter: blur(12px);
+    animation: fadeIn 1.2s ease-in-out;
 }
-/* Romantic messages */
-.message {
-    font-size: 32px;
-    margin: 20px 0;
-    text-align: center;
-    color: #800020;
+
+h1, h2, h3 {
+    text-shadow: 0px 0px 25px rgba(255,255,255,0.6);
 }
-/* Floating hearts animation */
-@keyframes floatUp {
-    0% { transform: translateY(100vh) translateX(0px); opacity: 1; }
-    100% { transform: translateY(-10vh) translateX(50px); opacity: 0; }
+
+button[kind="primary"] {
+    background-color: #ff4d6d !important;
+    border-radius: 30px !important;
+    height: 3em;
+    width: 12em;
+    font-weight: bold;
+    font-size: 18px;
 }
-.floating {
+
+@keyframes fadeIn {
+    from {opacity: 0; transform: translateY(30px);}
+    to {opacity: 1; transform: translateY(0);}
+}
+
+.heart {
     position: fixed;
-    font-size: 30px;
-    animation: floatUp 6s linear infinite;
+    bottom: -50px;
+    font-size: 22px;
+    animation: floatUp 7s linear infinite;
+    color: pink;
+}
+
+@keyframes floatUp {
+    0% { transform: translateY(0); opacity: 1; }
+    100% { transform: translateY(-110vh); opacity: 0; }
 }
 </style>
 """, unsafe_allow_html=True)
 
-# Title and subheading
-st.markdown('<h1 class="big-title">Mr. O</h1>', unsafe_allow_html=True)
-st.markdown('<h2 class="subheading">Will you be my Valentine? 💌</h2>', unsafe_allow_html=True)
+# -----------------------------
+# BACKGROUND MUSIC
+# -----------------------------
+try:
+    audio_file = open("iloveyou.mp3", "rb")
+    audio_bytes = audio_file.read()
+    st.audio(audio_bytes, format="audio/mp3")
+except:
+    st.warning("Add 'iloveyou.mp3' to project folder for background music 🎵")
 
-# YES button
-if st.button("YES! 💖"):
-    
-    # Floating hearts
+# -----------------------------
+# FLOATING HEARTS
+# -----------------------------
+for i in range(20):
+    left = random.randint(0, 100)
+    delay = random.uniform(0, 5)
+    st.markdown(
+        f"""
+        <div class="heart" style="left:{left}%; animation-delay:{delay}s;">
+            ❤️
+        </div>
+        """,
+        unsafe_allow_html=True,
+    )
+
+# -----------------------------
+# LOVE MESSAGES
+# -----------------------------
+LOVE_MESSAGES = [
+    "Loving you was never a question.",
+    "It was patience.",
+    "It was timing.",
+    "Trusting life would meet us halfway.",
+    "You are my peace.",
+    "My safe place.",
+    "My heart.",
+    "You feel like home.",
+    "Every day with you feels intentional.",
+    "This isn't a moment.",
+    "It's a continuation.",
+    "You are my answered prayer.",
+    "My forever starts with you."
+]
+
+def get_random_message():
+    return random.choice(LOVE_MESSAGES)
+
+# -----------------------------
+# SESSION CONTROL
+# -----------------------------
+if "step" not in st.session_state:
+    st.session_state.step = 1
+
+# -----------------------------
+# SCREEN 1 — PROPOSAL
+# -----------------------------
+if st.session_state.step == 1:
+
     st.markdown("""
-    <div class="floating" style="left:10%;">💖</div>
-    <div class="floating" style="left:30%; animation-delay: 1s;">🌸</div>
-    <div class="floating" style="left:50%; animation-delay: 2s;">💌</div>
-    <div class="floating" style="left:70%; animation-delay: 3s;">🌹</div>
-    <div class="floating" style="left:90%; animation-delay: 4s;">💖</div>
+    <div class="card">
+        <h1>For You ❤️</h1>
+        <h2>Will you be my Valentine?</h2>
+        <br>
+        <p>— Mr. O 💌</p>
+    </div>
     """, unsafe_allow_html=True)
 
-    # Balloons
+    if st.button("YES 💖", type="primary"):
+        st.session_state.step = 2
+        st.rerun()
+
+# -----------------------------
+# SCREEN 2 — ONE MORE THING
+# -----------------------------
+elif st.session_state.step == 2:
+
+    st.markdown("""
+    <div class="card">
+        <h2>One More Thing… ✨</h2>
+        <p>A special message from Mr. O is waiting for you.</p>
+    </div>
+    """, unsafe_allow_html=True)
+
+    if st.button("READ YOUR LETTER 💌", type="primary"):
+        st.session_state.step = 3
+        st.rerun()
+
+# -----------------------------
+# SCREEN 3 — AUTO LOVE MODE
+# -----------------------------
+elif st.session_state.step == 3:
+
+    placeholder = st.empty()
+
     st.balloons()
 
-    # Slow message reveal
-    messages = [
-        "OMG 😍 You said YES!",
-        "I can’t wait to spend more magical moments with you 🥰",
-        "You make my heart skip a beat ❤️",
-        "Every second with you feels like a dream 🌸",
-        "This song is for you… 💌"
-    ]
-    placeholder = st.empty()
-    for msg in messages:
-        placeholder.markdown(f'<p class="message">{msg}</p>', unsafe_allow_html=True)
-        time.sleep(2)
+    for i in range(1000):  # long romantic loop
+        message = get_random_message()
 
-    # Embed YouTube music video for "Nawe" by Simmy
-    st.video("https://www.youtube.com/watch?v=L7wXeG1aYQQ")
+        placeholder.markdown(f"""
+            <div class="card">
+                <h2>❤️</h2>
+                <h3>{message}</h3>
+                <br>
+                <p>Forever Yours,</p>
+                <h3>Mr. O 💍</h3>
+            </div>
+        """, unsafe_allow_html=True)
+
+        time.sleep(4)
