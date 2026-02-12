@@ -5,209 +5,261 @@ Created on Wed Feb 11 22:38:24 2026
 @author: ompha
 """
 
-import streamlit as st
-import random
-import time
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bianca 👑</title>
 
-st.set_page_config(page_title="💘 Mr. O", layout="centered")
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
 
-# -------------------------------------------------
-# 🌌 MASSIVE ROMANTIC STYLE
-# -------------------------------------------------
-st.markdown("""
 <style>
-.stApp {
-    background: linear-gradient(135deg, #2b1055, #7597de);
-    overflow: hidden;
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
 }
 
-/* Glass Card */
-.card {
-    background: rgba(255, 255, 255, 0.1);
-    padding: 60px;
-    border-radius: 30px;
-    text-align: center;
-    color: white;
-    box-shadow: 0px 25px 80px rgba(0,0,0,0.5);
-    backdrop-filter: blur(15px);
-    animation: fadeIn 1.5s ease-in-out;
+body{
+font-family:'Poppins',sans-serif;
+height:100vh;
+overflow:hidden;
+background: radial-gradient(circle at top, #1a002b, #000);
+color:white;
+display:flex;
+justify-content:center;
+align-items:center;
+text-align:center;
 }
 
-/* Glow Text */
-h1, h2, h3 {
-    text-shadow: 0px 0px 30px rgba(255,255,255,0.8);
+canvas{
+position:fixed;
+top:0;
+left:0;
+z-index:-1;
 }
 
-/* Fade Animation */
-@keyframes fadeIn {
-    from {opacity: 0; transform: translateY(40px);}
-    to {opacity: 1; transform: translateY(0);}
+.container{
+max-width:800px;
+padding:20px;
+animation:fadeIn 1.5s ease forwards;
 }
 
-/* 🌸 Falling Flowers */
-.flower {
-    position: fixed;
-    top: -50px;
-    font-size: 28px;
-    animation: fall linear infinite;
-    z-index: 0;
+h1,h2{
+font-family:'Cinzel',serif;
+letter-spacing:2px;
 }
 
-@keyframes fall {
-    0% { transform: translateY(0); opacity: 1; }
-    100% { transform: translateY(120vh); opacity: 0; }
+h1{
+font-size:3rem;
+background:linear-gradient(90deg,#ff2e92,#9b5cff);
+-webkit-background-clip:text;
+-webkit-text-fill-color:transparent;
 }
 
-/* ❤️ Floating Hearts */
-.heart {
-    position: fixed;
-    bottom: -40px;
-    font-size: 22px;
-    animation: rise linear infinite;
-    z-index: 0;
+p{
+margin-top:20px;
+font-size:1.1rem;
+line-height:1.6;
+opacity:0.85;
 }
 
-@keyframes rise {
-    0% { transform: translateY(0); opacity: 1; }
-    100% { transform: translateY(-120vh); opacity: 0; }
+button{
+margin-top:30px;
+padding:14px 30px;
+border:none;
+border-radius:40px;
+font-weight:600;
+cursor:pointer;
+transition:0.3s;
+font-size:1rem;
 }
 
-button[kind="primary"] {
-    background-color: #ff4d6d !important;
-    border-radius: 40px !important;
-    height: 3.2em;
-    width: 13em;
-    font-size: 18px;
-    font-weight: bold;
+.yes{
+background:linear-gradient(45deg,#ff2e92,#ff6a00);
+color:white;
+box-shadow:0 0 20px #ff2e92;
+}
+
+.yes:hover{
+transform:scale(1.1);
+box-shadow:0 0 40px #ff2e92;
+}
+
+.no{
+background:white;
+color:black;
+position:absolute;
+}
+
+.hidden{
+display:none;
+}
+
+.timeline{
+margin-top:40px;
+font-size:1.3rem;
+letter-spacing:3px;
+animation:glow 2s infinite alternate;
+}
+
+@keyframes glow{
+from{text-shadow:0 0 10px #ff2e92;}
+to{text-shadow:0 0 30px #9b5cff;}
+}
+
+@keyframes fadeIn{
+from{opacity:0;transform:translateY(20px);}
+to{opacity:1;transform:translateY(0);}
+}
+
+.final{
+font-size:1.5rem;
+animation:pulse 2s infinite;
+}
+
+@keyframes pulse{
+0%{transform:scale(1);}
+50%{transform:scale(1.05);}
+100%{transform:scale(1);}
 }
 </style>
-""", unsafe_allow_html=True)
+</head>
 
-# -------------------------------------------------
-# 🎵 BACKGROUND MUSIC (RAW GITHUB LINK)
-# -------------------------------------------------
-st.audio(
-    "https://raw.githubusercontent.com/MrOTheAnalyst/repo01/main/iloveyou.mpeg",
-    format="audio/mpeg"
-)
+<body>
 
-# -------------------------------------------------
-# 🌸 FLOWERS + ❤️ HEARTS
-# -------------------------------------------------
-flowers = ["🌸", "🌺", "🌷", "💐"]
-for i in range(30):
-    left = random.randint(0, 100)
-    duration = random.randint(6, 12)
-    delay = random.uniform(0, 5)
-    flower = random.choice(flowers)
+<canvas id="particles"></canvas>
 
-    st.markdown(
-        f"""
-        <div class="flower" 
-             style="left:{left}%; animation-duration:{duration}s; animation-delay:{delay}s;">
-             {flower}
-        </div>
-        """,
-        unsafe_allow_html=True,
-    )
+<audio id="music" autoplay loop muted>
+<source src="https://raw.githubusercontent.com/MrOTheAnalyst/repo01/main/iloveyou.mpeg">
+</audio>
 
-for i in range(20):
-    left = random.randint(0, 100)
-    duration = random.randint(5, 10)
-    delay = random.uniform(0, 5)
+<div class="container" id="page1">
+<h1>Bianca 🤍</h1>
+<p>Will you be my Valentine?</p>
+<button class="yes" onclick="startLove()">YES 💍</button>
+<button class="no" id="noBtn">No</button>
+</div>
 
-    st.markdown(
-        f"""
-        <div class="heart"
-             style="left:{left}%; animation-duration:{duration}s; animation-delay:{delay}s;">
-             ❤️
-        </div>
-        """,
-        unsafe_allow_html=True,
-    )
+<div class="container hidden" id="page2">
+<h2>One More Thing...</h2>
+<p>There's a special Valentine's message waiting for you.</p>
+<button class="yes" onclick="nextPage(3)">READ YOUR LETTER 💌</button>
+</div>
 
-# -------------------------------------------------
-# 💌 LOVE MESSAGES
-# -------------------------------------------------
-LOVE_MESSAGES = [
-    "Loving you was never a question.",
-    "It was patience.",
-    "It was timing.",
-    "You are my peace.",
-    "My safe place.",
-    "My heart.",
-    "You feel like home.",
-    "Every day with you feels intentional.",
-    "This isn't a moment.",
-    "It's a continuation.",
-    "Forever starts with you.",
-    "You are my answered prayer.",
-    "You are my greatest blessing.",
-    "With you, life feels complete.",
-    "I choose you. Always."
-]
+<div class="container hidden" id="page3">
+<h2>When I First Saw You</h2>
+<p>
+From the moment our eyes met, I knew there was something special about you.
+Something worth waiting for.
+</p>
+<button class="yes" onclick="nextPage(4)">Next →</button>
+</div>
 
-# -------------------------------------------------
-# SESSION CONTROL
-# -------------------------------------------------
-if "page" not in st.session_state:
-    st.session_state.page = 1
+<div class="container hidden" id="page4">
+<h2>Every Moment Together</h2>
+<p>
+Through laughter, conversations, and quiet moments —
+every second with you has been a gift I treasure.
+</p>
+<button class="yes" onclick="nextPage(5)">Next →</button>
+</div>
 
-# -------------------------------------------------
-# 💖 SCREEN 1 — PROPOSAL
-# -------------------------------------------------
-if st.session_state.page == 1:
+<div class="container hidden" id="page5">
+<h2>From Grade Strangers → Lovers</h2>
+<div class="timeline">2022 ✦ 2026</div>
+<button class="yes" onclick="nextPage(6)">Next →</button>
+</div>
 
-    st.markdown("""
-    <div class="card">
-        <h1>For You ❤️</h1>
-        <h2>Will you be my Valentine?</h2>
-        <br>
-        <p>— Mr. O 💌</p>
-    </div>
-    """, unsafe_allow_html=True)
+<div class="container hidden" id="page6">
+<h2>I Choose You, Bianca 👑</h2>
+<p>
+Loving you was never a question.<br>
+It was patience. Timing. Trusting life would meet us halfway.<br><br>
+You are my peace. My safe place. My heart.<br><br>
+This isn't a moment.<br>
+It's a continuation.
+</p>
+<button class="yes" onclick="nextPage(7)">Final Message →</button>
+</div>
 
-    if st.button("YES 💖", type="primary"):
-        st.session_state.page = 2
-        st.rerun()
+<div class="container hidden final" id="page7">
+<h1>QUEEN OF MY HEART</h1>
+<p>
+Pretty face… I can't wait to kiss those cheeks 😘<br><br>
+I choose you.<br>
+My forever. My home.
+</p>
+</div>
 
-# -------------------------------------------------
-# ✨ SCREEN 2 — BUILD SUSPENSE
-# -------------------------------------------------
-elif st.session_state.page == 2:
+<script>
+function startLove(){
+document.getElementById("page1").classList.add("hidden");
+document.getElementById("page2").classList.remove("hidden");
 
-    st.markdown("""
-    <div class="card">
-        <h2>One More Thing… ✨</h2>
-        <p>A special love letter is about to unfold.</p>
-        <p>Ready?</p>
-    </div>
-    """, unsafe_allow_html=True)
+let music=document.getElementById("music");
+music.muted=false;
+music.play();
+}
 
-    if st.button("Open My Heart 💘", type="primary"):
-        st.session_state.page = 3
-        st.rerun()
+function nextPage(num){
+for(let i=2;i<=7;i++){
+let p=document.getElementById("page"+i);
+if(p) p.classList.add("hidden");
+}
+document.getElementById("page"+num).classList.remove("hidden");
+}
 
-# -------------------------------------------------
-# 💌 SCREEN 3 — AUTO LOVE MODE
-# -------------------------------------------------
-elif st.session_state.page == 3:
+let noBtn=document.getElementById("noBtn");
+noBtn.addEventListener("mouseover",()=>{
+noBtn.style.top=Math.random()*80+"vh";
+noBtn.style.left=Math.random()*80+"vw";
+});
 
-    placeholder = st.empty()
-    st.balloons()
 
-    for i in range(500):
+// PARTICLES
+const canvas=document.getElementById("particles");
+const ctx=canvas.getContext("2d");
+canvas.width=window.innerWidth;
+canvas.height=window.innerHeight;
 
-        message = random.choice(LOVE_MESSAGES)
+let particles=[];
+for(let i=0;i<100;i++){
+particles.push({
+x:Math.random()*canvas.width,
+y:Math.random()*canvas.height,
+r:Math.random()*2+1,
+d:Math.random()*1
+});
+}
 
-        placeholder.markdown(f"""
-        <div class="card">
-            <h2>❤️</h2>
-            <h3>{message}</h3>
-            <br>
-            <p>Forever Yours,</p>
-            <h2>Mr. O 💍</h2>
-        </div>
-        """, unsafe_allow_html=True)
+function draw(){
+ctx.clearRect(0,0,canvas.width,canvas.height);
+ctx.fillStyle="rgba(255,46,146,0.7)";
+ctx.beginPath();
+for(let i=0;i<particles.length;i++){
+let p=particles[i];
+ctx.moveTo(p.x,p.y);
+ctx.arc(p.x,p.y,p.r,0,Math.PI*2,true);
+}
+ctx.fill();
+update();
+}
 
-        time.sleep(4)
+function update(){
+for(let i=0;i<particles.length;i++){
+let p=particles[i];
+p.y+=p.d;
+if(p.y>canvas.height){
+p.y=0;
+p.x=Math.random()*canvas.width;
+}
+}
+}
+
+setInterval(draw,33);
+</script>
+
+</body>
+</html>
